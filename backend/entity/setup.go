@@ -1,8 +1,9 @@
 package entity
 
 import (
-	//"time"
+	"time"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -14,16 +15,11 @@ func DB() *gorm.DB {
 }
 
 func SetupDatabase() {
-	///////////ทดลองให้เวลาเกิดเป็นเวลาปัจุบัน///////////
-	//t := time.Now()
 	//////////////////////////////////////////////
-
 	database, err := gorm.Open(sqlite.Open("sut-midterm-lab.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
-	//////////////////////////////////////////////
-	db = database
 	//////////////////////////////////////////////
 	database.AutoMigrate(
 		&GENDER{},
@@ -31,8 +27,17 @@ func SetupDatabase() {
 		&DEGREE{},
 		&INSTITUTE{},
 		&PREFIX{},
+		&ADMIN{},
+		&BRANCH{},
+		&COURSE{},
+		&STUDENT{},
 	)
+	//////////////////////////////////////////////
+	db = database
+	///////////ทดลองให้เวลาเกิดเป็นเวลาปัจุบัน///////////
+	t := time.Now()
 	///////////////ข้อมูลใน entity GENDER///////////
+
 	GenderMale := GENDER{
 		Gender_Type: "ชาย",
 	}
@@ -432,7 +437,9 @@ func SetupDatabase() {
 		Province_Name: "อุบลราชธานี",
 	}
 	db.Model(&PROVINCE{}).Create(&Province77)
+
 	///////////////ข้อมูลใน entity DEGREE///////////
+
 	Degree1 := DEGREE{
 		Degree_Name: "ปริญญาตรี",
 	}
@@ -447,7 +454,9 @@ func SetupDatabase() {
 		Degree_Name: "ปริญญาเอก",
 	}
 	db.Model(&DEGREE{}).Create(&Degree3)
+
 	///////////////ข้อมูลใน entity INSTITUTE///////////
+
 	Institute1 := INSTITUTE{
 		Institute_Name: "สำนักวิชาวิศวกรรมศาสตร์",
 	}
@@ -457,7 +466,9 @@ func SetupDatabase() {
 		Institute_Name: "สำนักวิชาวิทยาศาสตร์",
 	}
 	db.Model(&INSTITUTE{}).Create(&Institute2)
+
 	///////////////ข้อมูลใน entity PREFIX///////////
+
 	Prefix1 := PREFIX{
 		Prefix_Name: "นาย",
 	}
@@ -488,5 +499,131 @@ func SetupDatabase() {
 	}
 	db.Model(&PREFIX{}).Create(&Prefix6)
 
-	
+	///////////////ข้อมูลใน entity ADMIN////////////////////////////////////
+
+	password, err := bcrypt.GenerateFromPassword([]byte("123456789"), 14)
+
+	Admin1 := ADMIN{
+		Admin_Name:     "สมใจ จิตดี",
+		Admin_Email:    "Admin0001@gmail.com",
+		Admin_Password: string(password),
+		Admin_Tel:      "0957423478",
+		Admin_Address:  "123/456 ต.คลอง1 อ.คลองหลวง จ.ปทุมธานี",
+		Gender:         GenderFemale,
+		Prefix:         Prefix3,
+		Province:       Province29,
+	}
+	db.Model(&ADMIN{}).Create(&Admin1)
+
+	Admin2 := ADMIN{
+		Admin_Name:     "เก่ง สมใจ",
+		Admin_Email:    "Admin0002@gmail.com",
+		Admin_Password: string(password),
+		Admin_Tel:      "0655619892",
+		Admin_Address:  "788/21 ต.คลอง3 อ.คลองหลวง จ.ปทุมธานี",
+		Gender:         GenderMale,
+		Prefix:         Prefix1,
+		Province:       Province29,
+	}
+	db.Model(&ADMIN{}).Create(&Admin2)
+
+	///////////////ข้อมูลใน entity BRANCH///////////////////////////////
+
+	Branch1 := BRANCH{
+		Branch_Name:    "วิศวกรรมคอมพิวเตอร์",
+		Branch_Teacher: "หาย ไม่บอก",
+		Branch_Info:    "ตอบโจทย์ตลาดแรงงานในอนาคต",
+		Prefix:         Prefix5,
+		Institute:      Institute1,
+		Admin:          Admin1,
+	}
+	db.Model(&BRANCH{}).Create(&Branch1)
+
+	Branch2 := BRANCH{
+		Branch_Name:    "วิศวกรรมเครื่องกล",
+		Branch_Teacher: "แอบมอง คนดี",
+		Branch_Info:    "ตอบโจทย์ตลาดแรงงานในอนาคต",
+		Prefix:         Prefix4,
+		Institute:      Institute1,
+		Admin:          Admin1,
+	}
+	db.Model(&BRANCH{}).Create(&Branch2)
+
+	///////////////ข้อมูลใน entity COURSE///////////////////////////////
+
+	Course1 := COURSE{
+		Course_Name:    "วิศวกรรมคอมพิวเตอร์หลักสูตร(พ.ศ.2560)",
+		Course_Teacher: "หาย ไม่บอก",
+		Course_Credit:  178,
+		Course_Detail:  "เป็นหลักสูตรของสาขาวิศวกรรมคอมพิวเตอร์เป็นหลักสูตรที่ออกแบบมาเพื่อตอบโจทย์กับอนาคต",
+		Course_Year:    2560,
+		Degree:         Degree1,
+		Prefix:         Prefix5,
+		Institute:      Institute1,
+		Branch:         Branch1,
+		Admin:          Admin1,
+	}
+	db.Model(&COURSE{}).Create(&Course1)
+
+	Course2 := COURSE{
+		Course_Name:    "วิศวกรรมเครื่องกลหลักสูตร(พ.ศ.2560)",
+		Course_Teacher: "แอบมอง คนดี",
+		Course_Credit:  192,
+		Course_Detail:  "เป็นหลักสูตรของสาขาวิศวกรรมเครื่องกลเป็นหลักสูตรที่ออกแบบมาเพื่อตอบโจทย์กับอนาคต",
+		Course_Year:    2560,
+		Degree:         Degree1,
+		Prefix:         Prefix4,
+		Institute:      Institute1,
+		Branch:         Branch2,
+		Admin:          Admin2,
+	}
+	db.Model(&COURSE{}).Create(&Course2)
+
+	///////////////ข้อมูลใน entity STUDENT///////////////////////////////
+
+	Student1 := STUDENT{
+		Student_Year_Of_Entry: t,
+		Student_Number:        "B6300000",
+		Student_Name:          "ศุภกานต์ แสงจันทร์",
+		Student_Birthday:      t,
+		Student_Tel:           "0987564387",
+		Student_Identity_Card: "1134900124561",
+		Student_Nationality:   "ไทย",
+		Student_Religion:      "พุทธ",
+		Student_Address:       "23/21ต.คลอง1 อ.คลองหลวง จ.ปทุมธานี",
+		Student_Fathers_Name:  "สมชาย แสงจันทร์",
+		Student_Mothers_Name:  "สมหญิง แสงจันทร์",
+		Gender:                GenderMale,
+		Degree:                Degree1,
+		Prefix:                Prefix1,
+		Institute:             Institute1,
+		Province:              Province29,
+		Branch:                Branch1,
+		Course:                Course1,
+		Admin:                 Admin1,
+	}
+	db.Model(&STUDENT{}).Create(&Student1)
+
+	Student2 := STUDENT{
+		Student_Year_Of_Entry: t,
+		Student_Number:        "B6311010",
+		Student_Name:          "สมจิต สีแดง",
+		Student_Birthday:      t,
+		Student_Tel:           "0687538946",
+		Student_Identity_Card: "1134900124129",
+		Student_Nationality:   "ไทย",
+		Student_Religion:      "พุทธ",
+		Student_Address:       "224/21ต.คลอง6 อ.คลองหลวง จ.ปทุมธานี",
+		Student_Fathers_Name:  "สมหมาย สีแดง",
+		Student_Mothers_Name:  "สมศรี สีแดง",
+		Gender:                GenderFemale,
+		Degree:                Degree1,
+		Prefix:                Prefix3,
+		Institute:             Institute1,
+		Province:              Province29,
+		Branch:                Branch2,
+		Course:                Course2,
+		Admin:                 Admin2,
+	}
+	db.Model(&STUDENT{}).Create(&Student2)
 }
