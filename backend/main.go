@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/supakanboss/sut-midterm-lab/controller"
 	"github.com/supakanboss/sut-midterm-lab/entity"
 )
 
@@ -26,6 +27,21 @@ func main() {
 	entity.SetupDatabase()
 	r := gin.Default()
 	r.Use(CORSMiddleware())
+
+	//combobox Institute
+	r.GET("/Institute", controller.ListInstitute)
+	//combobox Branch
+	r.GET("/Branch", controller.ListBranch)
+	//combobox Course
+	r.GET("/Course", controller.ListCourse)
+	//combobox Degree
+	r.GET("/Degree", controller.ListDegree)
+	//combobox Prefix
+	r.GET("/Prefix", controller.ListPrefix)
+	//combobox Gender
+	r.GET("/Gender", controller.ListGender)
+	//combobox Province
+	r.GET("/Province", controller.ListProvince)
 
 	r.Run()
 }
