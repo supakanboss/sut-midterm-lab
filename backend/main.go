@@ -46,7 +46,7 @@ func main() {
 	//รับข้อมูลเข้าตาราง Student
 	r.POST("/CreateStudent", controller.CreateStudent)
 	//แสดงข้อมูลตาราง Student
-	r.GET("/Student", controller.ListStudent)
+	r.GET("/StudentTable", controller.ListStudentTable)
 
 	//รับข้อมูลเข้าตาราง Course
 	r.POST("/CreateCourse", controller.CreateCourse)

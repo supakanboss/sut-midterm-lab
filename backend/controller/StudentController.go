@@ -100,7 +100,7 @@ func CreateStudent(c *gin.Context) {
 }
 
 // ดึงข้อมูล Student มาแสดง
-func ListStudent(c *gin.Context) {
+func ListStudentTable(c *gin.Context) {
 
 	var Student []entity.STUDENT
 
