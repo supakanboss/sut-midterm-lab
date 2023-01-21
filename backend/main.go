@@ -43,5 +43,15 @@ func main() {
 	//combobox Province
 	r.GET("/Province", controller.ListProvince)
 
+	//รับข้อมูลเข้าตาราง Student
+	r.POST("/CreateStudent", controller.CreateStudent)
+	//แสดงข้อมูลตาราง Student
+	r.GET("/Student", controller.ListStudent)
+
+	//รับข้อมูลเข้าตาราง Course
+	r.POST("/CreateCourse", controller.CreateCourse)
+	//แสดงข้อมูลตาราง Course
+	r.GET("/CourseTable", controller.ListCourseTable)
+
 	r.Run()
 }

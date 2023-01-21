@@ -12,7 +12,7 @@ func ListInstitute(c *gin.Context) {
 	var Institute []entity.INSTITUTE
 
 	if err := entity.DB().Raw("SELECT * FROM institutes").Scan(&Institute).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"ListInstitute_error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Institute})
@@ -23,7 +23,7 @@ func ListBranch(c *gin.Context) {
 	var Branch []entity.BRANCH
 
 	if err := entity.DB().Raw("SELECT * FROM branches").Scan(&Branch).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"ListBranch_error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Branch})
@@ -34,7 +34,7 @@ func ListCourse(c *gin.Context) {
 	var Course []entity.COURSE
 
 	if err := entity.DB().Raw("SELECT * FROM courses").Scan(&Course).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"ListCourse_error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Course})
@@ -45,7 +45,7 @@ func ListDegree(c *gin.Context) {
 	var Degree []entity.DEGREE
 
 	if err := entity.DB().Raw("SELECT * FROM degrees").Scan(&Degree).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"ListDegree_error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Degree})
@@ -56,7 +56,7 @@ func ListPrefix(c *gin.Context) {
 	var Prefix []entity.PREFIX
 
 	if err := entity.DB().Raw("SELECT * FROM prefixes").Scan(&Prefix).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"ListPrefix_error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Prefix})
@@ -67,7 +67,7 @@ func ListGender(c *gin.Context) {
 	var Gender []entity.GENDER
 
 	if err := entity.DB().Raw("SELECT * FROM genders").Scan(&Gender).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"ListGender_error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Gender})
@@ -78,7 +78,7 @@ func ListProvince(c *gin.Context) {
 	var Province []entity.PROVINCE
 
 	if err := entity.DB().Raw("SELECT * FROM provinces").Scan(&Province).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"ListProvince_error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Province})
