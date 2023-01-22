@@ -114,3 +114,51 @@ func ListStudentTable(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": Student})
 }
+
+// ดึงข้อมูล student by id 
+func ListStudentByID(c *gin.Context) {
+
+	var Student []entity.STUDENT
+	id := c.Param("id")
+	if err := entity.DB().Raw("SELECT * FROM students WHERE id = ?", id).Scan(&Student).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"ListStudentByID_error": err.Error()})
+
+		return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": Student})
+}
+
+// ลบข้อมูล student by id 
+func DeleteStudentByID(c *gin.Context) {
+	id := c.Param("id")
+	if tx := entity.DB().Exec("DELETE FROM students WHERE id = ?", id); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "DeleteStudentByID not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": id})
+}
+
+// แก้ไขข้อมูล student
+func UpdateStudent(c *gin.Context) {
+	var Student entity.STUDENT
+	if err := c.ShouldBindJSON(&Student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", Student.ID).First(&Student); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "UpdateStudent not found"})
+		return
+	}
+
+	if err := entity.DB().Save(&Student).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": Student})
+}

@@ -84,3 +84,51 @@ func ListCourseTable(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": Course})
 }
+
+// ดึงข้อมูล Course by id 
+func ListCourseByID(c *gin.Context) {
+
+	var Course []entity.COURSE
+	id := c.Param("id")
+	if err := entity.DB().Raw("SELECT * FROM courses WHERE id = ?", id).Scan(&Course).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"ListCourseByID_error": err.Error()})
+
+		return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": Course})
+}
+
+// ลบข้อมูล Course by id 
+func DeleteCourseByID(c *gin.Context) {
+	id := c.Param("id")
+	if tx := entity.DB().Exec("DELETE FROM courses WHERE id = ?", id); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "DeleteCoursesByID not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": id})
+}
+
+// แก้ไขข้อมูล Course
+func UpdateCourse(c *gin.Context) {
+	var Course entity.COURSE
+	if err := c.ShouldBindJSON(&Course); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", Course.ID).First(&Course); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "UpdateCourse not found"})
+		return
+	}
+
+	if err := entity.DB().Save(&Course).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": Course})
+}

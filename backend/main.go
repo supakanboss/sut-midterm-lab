@@ -28,30 +28,50 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
+	/////////////////////////////////////////////////////////////
+
 	//combobox Institute
-	r.GET("/Institute", controller.ListInstitute)
+	r.GET("/institute", controller.ListInstitute)
 	//combobox Branch
-	r.GET("/Branch", controller.ListBranch)
+	r.GET("/branch", controller.ListBranch)
 	//combobox Course
-	r.GET("/Course", controller.ListCourse)
+	r.GET("/course", controller.ListCourse)
 	//combobox Degree
-	r.GET("/Degree", controller.ListDegree)
+	r.GET("/degree", controller.ListDegree)
 	//combobox Prefix
-	r.GET("/Prefix", controller.ListPrefix)
+	r.GET("/prefix", controller.ListPrefix)
 	//combobox Gender
-	r.GET("/Gender", controller.ListGender)
+	r.GET("/gender", controller.ListGender)
 	//combobox Province
-	r.GET("/Province", controller.ListProvince)
+	r.GET("/province", controller.ListProvince)
+
+	/////////////////////////////////////////////////////////////
 
 	//รับข้อมูลเข้าตาราง Student
-	r.POST("/CreateStudent", controller.CreateStudent)
+	r.POST("/create_Student", controller.CreateStudent)
 	//แสดงข้อมูลตาราง Student
-	r.GET("/StudentTable", controller.ListStudentTable)
+	r.GET("/student_table", controller.ListStudentTable)
+	// ดึงข้อมูล student by id
+	r.GET("/student/:id", controller.ListStudentByID)
+	// แก้ไขข้อมูล student
+	r.PATCH("/update_student", controller.UpdateStudent)
+	// ลบข้อมูล student by id
+	r.DELETE("/delete_student/:id", controller.DeleteStudentByID)
+
+	/////////////////////////////////////////////////////////////
 
 	//รับข้อมูลเข้าตาราง Course
-	r.POST("/CreateCourse", controller.CreateCourse)
+	r.POST("/create_course", controller.CreateCourse)
 	//แสดงข้อมูลตาราง Course
-	r.GET("/CourseTable", controller.ListCourseTable)
+	r.GET("/course_table", controller.ListCourseTable)
+	// ดึงข้อมูล course by id
+	r.GET("/course/:id", controller.ListStudentByID)
+	// แก้ไขข้อมูล course
+	r.PATCH("/update_course", controller.UpdateStudent)
+	// ลบข้อมูล course by id
+	r.DELETE("/delete_course/:id", controller.DeleteStudentByID)
+
+	/////////////////////////////////////////////////////////////
 
 	r.Run()
 }
