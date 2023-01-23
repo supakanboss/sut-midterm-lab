@@ -6,86 +6,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { GrUpdate } from "@react-icons/all-files/gr/GrUpdate";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-
-import { StudentInterface } from "../model/IStudent";
+import TextField from "@mui/material/TextField";
 
 import Homebar from "./Homebar";
-import { ButtonGroup } from "@mui/material";
 
 function CreateStudent() {
-  /////////////////////////////////////////////////////
-
-  const [Studentstable, setStudentstable] = useState<StudentInterface[]>([]);
-
-  /////////////////////////////////////////////////////
-  const apiUrl = "http://localhost:8080";
-  const requestOpionsGet = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  };
-  /////////////////////////////////////////////////////
-
-  //แสดงข้อมูล student ทั้งหมด
-  const feachStudentstable = async () => {
-    fetch(`${apiUrl}/student_table`, requestOpionsGet)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result.data);
-        setStudentstable(result.data);
-      });
-  };
-
-  /////////////////////////////////////////////////////
-
-  useEffect(() => {
-    feachStudentstable();
-  }, []);
-
-  /////////////////////////////////////////////////////
-
-  const columns: GridColDef[] = [
-    { field: "ID", headerName: "ID", width: 50 },
-    {
-      field: "Student_Number",
-      headerName: "Student_Number",
-      width: 150,
-      valueFormatter: (params) => params.value.Student_Number,
-    },
-    {
-      field: "Student_Name",
-      headerName: "Student_Name",
-      width: 150,
-      valueFormatter: (params) => params.value.Student_Name,
-    },
-    {
-      field: "Institute",
-      headerName: "Institute",
-      width: 150,
-      valueFormatter: (params) => params.value.Institute_Name,
-    },
-    {
-      field: "Branch",
-      headerName: "Branch",
-      width: 150,
-      valueFormatter: (params) => params.value.Branch_Name,
-    },
-    {
-      field: "Course",
-      headerName: "Course",
-      width: 150,
-      valueFormatter: (params) => params.value.Course_Name,
-    },
-  ];
-
   return (
     <div>
       <Homebar />
@@ -96,54 +21,282 @@ function CreateStudent() {
             <Box display={"flex"}>
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h5" gutterBottom>
-                  Student
+                  CreateStudent
                 </Typography>
-              </Box>
-              <Box>
-                <Button variant="contained">create</Button>
               </Box>
             </Box>
           </Paper>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">ID</TableCell>
-                  <TableCell align="center">Student_Number</TableCell>
-                  <TableCell align="center">Student_Name</TableCell>
-                  <TableCell align="center">Student_Identity_Card</TableCell>
-                  <TableCell align="center">Student_Tel</TableCell>
-                  <TableCell align="center"></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {Studentstable.map((row) => (
-                  <TableRow
-                    key={row.ID}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell align="center">{row.ID}</TableCell>
-                    <TableCell align="center">{row.Student_Number}</TableCell>
-                    <TableCell align="center">{row.Student_Name}</TableCell>
-                    <TableCell align="center">
-                      {row.Student_Identity_Card}{" "}
-                    </TableCell>
-                    <TableCell align="center">{row.Student_Tel} </TableCell>
-                    <TableCell align="center">
-                      <ButtonGroup>
-                        <Button>update</Button>
-                        <Button><DeleteOutlineIcon /></Button>
-                      </ButtonGroup>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        </Container>
+        <Container maxWidth="lg">
+          <Paper sx={{ padding: 2 }}>
+            <Box display={"flex"}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <h4>ประวัติส่วนตัวนักศึกษา</h4>
+                    <hr />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <p>Prefix </p>
+                    <TextField
+                      fullWidth
+                      id="outlined-basic"
+                      label="Prefix"
+                      variant="outlined"
+                      name="Prefix"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <p>ชื่อ-สกุล</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="ชื่อ-สกุล"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={2}>
+                    <p>Gender </p>
+                    <TextField
+                      fullWidth
+                      id="outlined-basic"
+                      label="Genden"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <p>Birthday</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="date"
+                      label=""
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    <p>tel</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="tel"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    <p>identity card</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="รหัสบัตรประชาชน"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    <p>father</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="ชื่อ-สกุล บิดา"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    <p>Mother</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="ชื่อ-สกุล มารดา"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={3}>
+                    <p>nationality</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="สัญชาติ"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <p>religion</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="ศาสนา"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    <p>province</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="จังหวัด"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    <p>address</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="ที่อยู่"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={12}>
+                    <hr />
+                    <h4>ข้อมูลนักศึกษา</h4>
+                    
+                  </Grid>
+                  <Grid item xs={3}>
+                    <p>institute</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="สำนักวิชา"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <p>branch</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="สาขาวิชา"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={3}>
+                    <p>course</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="หลักสูตร"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <p>degree</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="ระดับการศึกษา"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    <p>Year of Entry</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="date"
+                      label=""
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6}>
+                    <p>student Number</p>
+                    <TextField
+                      fullWidth
+                      id="Member_Name"
+                      type="string"
+                      label="รหัสนักศึกษา"
+                      variant="outlined"
+                      name="Member_Name"
+                      //value={}
+                      //onChange={}
+                    />
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={3}>
+                  <Button variant="contained" size="large" fullWidth>submit</Button>
+                  </Grid>
+                  <Grid item xs={3}>
+                  <Button variant="contained" size="large" fullWidth>back</Button>
+                  </Grid>
+                  <Grid item xs={6}></Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </Paper>
         </Container>
       </React.Fragment>
     </div>
   );
 }
-
 export default CreateStudent;

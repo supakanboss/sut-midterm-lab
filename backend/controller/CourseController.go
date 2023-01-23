@@ -69,7 +69,7 @@ func CreateCourse(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Data_Course})
 }
 
-// ดึงข้อมูล Student มาแสดง
+// ดึงข้อมูล Course มาแสดง
 func ListCourseTable(c *gin.Context) {
 
 	var Course []entity.COURSE
