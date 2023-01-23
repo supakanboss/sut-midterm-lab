@@ -8,6 +8,10 @@ export interface BranchInterface {
     Branch_Teacher: string,
     Branch_Info: string,
 
+    PrefixID?: number
+    InstituteID?: number
+    AdminID?: number
+
     Prefix: PrefixInterface,
     Institute: InstituteInterface,
     Admin: AdminInterface,

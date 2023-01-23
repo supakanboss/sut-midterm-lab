@@ -21,6 +21,15 @@ export interface StudentInterface {
     Student_Fathers_Name: string,
     Student_Mothers_Name: string,
 
+    GenderID?: number
+    DegreeID?: number
+    PrefixID?: number
+    InstituteID?: number
+    ProvinceID?: number
+    BranchID?: number
+    CourseID?: number
+    AdminID?: number
+
     Gender: GenderInterface,
     Degree: DegreeInterface,
     Prefix: PrefixInterface,

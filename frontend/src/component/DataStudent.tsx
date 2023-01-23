@@ -13,10 +13,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { ButtonGroup } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 import { StudentInterface } from "../model/IStudent";
 
 import Homebar from "./Homebar";
+import CreateStudent from "./CreateStudent";
 
 function DataStudent() {
   /////////////////////////////////////////////////////
@@ -43,6 +45,10 @@ function DataStudent() {
 
   /////////////////////////////////////////////////////
 
+
+
+  /////////////////////////////////////////////////////
+
   useEffect(() => {
     feachStudentstable();
   }, []);
@@ -63,7 +69,13 @@ function DataStudent() {
                 </Typography>
               </Box>
               <Box>
-                <Button variant="contained">create</Button>
+                <Button
+                  variant="contained"
+                  component={RouterLink}
+                  to="/CreateStudent"
+                >
+                  create
+                </Button>
               </Box>
             </Box>
           </Paper>
@@ -95,7 +107,9 @@ function DataStudent() {
                     <TableCell align="center">
                       <ButtonGroup>
                         <Button>update</Button>
-                        <Button><DeleteOutlineIcon /></Button>
+                        <Button>
+                          <DeleteOutlineIcon />
+                        </Button>
                       </ButtonGroup>
                     </TableCell>
                   </TableRow>

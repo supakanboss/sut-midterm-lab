@@ -12,6 +12,12 @@ export interface CourseInterface {
     Course_Detail: string,
     Course_Year: number,
 
+    DegreeID?: number
+    PrefixID?: number
+    InstituteID?: number
+    BranchID?: number
+    AdminID?: number
+
     Degree: DegreeInterface,
     Prefix: PrefixInterface,
     Institute: InstituteInterface,

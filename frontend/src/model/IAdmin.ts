@@ -10,6 +10,10 @@ export interface AdminInterface {
     Admin_Tel: string,
     Admin_Address: string,
 
+    GenderID?: number
+    PrefixID?: number
+    ProvinceID?: number
+
     Gender: GenderInterface,
     Prefix: PrefixInterface,
     Province: ProvinceInterface,
