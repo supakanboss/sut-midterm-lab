@@ -61,7 +61,7 @@ func CreateCourse(c *gin.Context) {
 		Admin:     Admin,
 	}
 
-	// 21: บันทึก
+	// 15: บันทึก
 	if err := entity.DB().Create(&Data_Course).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"Data_Course_error": err.Error()})
 		return
@@ -126,31 +126,31 @@ func UpdateCourse(c *gin.Context) {
 		return
 	}
 
-	// 10: ค้นหา prefix ด้วย id
+	// 1: ค้นหา prefix ด้วย id
 	if tx := entity.DB().Where("id = ?", Course.PrefixID).First(&Prefix); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Prefix not found"})
 		return
 	}
 
-	// 11: ค้นหา institute ด้วย id
+	// 2: ค้นหา institute ด้วย id
 	if tx := entity.DB().Where("id = ?", Course.InstituteID).First(&Institute); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Institute not found"})
 		return
 	}
 
-	// 12: ค้นหา branch ด้วย id
+	// 3: ค้นหา branch ด้วย id
 	if tx := entity.DB().Where("id = ?", Course.BranchID).First(&Branch); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Branch not found"})
 		return
 	}
 
-	// 13: ค้นหา degree ด้วย id
+	// 4: ค้นหา degree ด้วย id
 	if tx := entity.DB().Where("id = ?", Course.DegreeID).First(&Degree); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Degree not found"})
 		return
 	}
 
-	// 14: สร้าง entity Course
+	// 5: สร้าง entity Course
 	update := entity.COURSE{
 		Course_Name:    Course.Course_Name,
 		Course_Teacher: Course.Course_Teacher,
@@ -166,7 +166,7 @@ func UpdateCourse(c *gin.Context) {
 		Admin:     Admin,
 	}
 
-	// 21: บันทึก
+	// 6: update
 	if err := entity.DB().Where("id = ?", Course.ID).Updates(&update).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
