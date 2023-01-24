@@ -1,4 +1,5 @@
 import Home from "./component/Home";
+import Homebar from "./component/Homebar";
 import DataStudent from "./component/DataStudent";
 import CreateStudent from "./component/CreateStudent";
 import UpdateStudent from "./component/UpdateStudent";

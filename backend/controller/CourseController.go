@@ -85,7 +85,7 @@ func ListCourseTable(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Course})
 }
 
-// ดึงข้อมูล Course by id 
+// ดึงข้อมูล Course by id
 func ListCourseByID(c *gin.Context) {
 
 	var Course []entity.COURSE
@@ -101,7 +101,7 @@ func ListCourseByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": Course})
 }
 
-// ลบข้อมูล Course by id 
+// ลบข้อมูล Course by id
 func DeleteCourseByID(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM courses WHERE id = ?", id); tx.RowsAffected == 0 {
@@ -114,21 +114,62 @@ func DeleteCourseByID(c *gin.Context) {
 
 // แก้ไขข้อมูล Course
 func UpdateCourse(c *gin.Context) {
+	var Admin entity.ADMIN
+	var Institute entity.INSTITUTE
+	var Branch entity.BRANCH
+	var Degree entity.DEGREE
+	var Prefix entity.PREFIX
 	var Course entity.COURSE
+
 	if err := c.ShouldBindJSON(&Course); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"ShouldBindJSON_Course_error": err.Error()})
+		return
+	}
+
+	// 10: ค้นหา prefix ด้วย id
+	if tx := entity.DB().Where("id = ?", Course.PrefixID).First(&Prefix); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Prefix not found"})
+		return
+	}
+
+	// 11: ค้นหา institute ด้วย id
+	if tx := entity.DB().Where("id = ?", Course.InstituteID).First(&Institute); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Institute not found"})
+		return
+	}
+
+	// 12: ค้นหา branch ด้วย id
+	if tx := entity.DB().Where("id = ?", Course.BranchID).First(&Branch); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Branch not found"})
+		return
+	}
+
+	// 13: ค้นหา degree ด้วย id
+	if tx := entity.DB().Where("id = ?", Course.DegreeID).First(&Degree); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Degree not found"})
+		return
+	}
+
+	// 14: สร้าง entity Course
+	update := entity.COURSE{
+		Course_Name:    Course.Course_Name,
+		Course_Teacher: Course.Course_Teacher,
+		Course_Credit:  Course.Course_Credit,
+		Course_Detail:  Course.Course_Detail,
+		Course_Year:    Course.Course_Year,
+
+		Degree:    Degree,
+		Prefix:    Prefix,
+		Institute: Institute,
+		Branch:    Branch,
+		AdminID:   Course.AdminID,
+		Admin:     Admin,
+	}
+
+	// 21: บันทึก
+	if err := entity.DB().Where("id = ?", Course.ID).Updates(&update).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", Course.ID).First(&Course); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "UpdateCourse not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&Course).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
 	c.JSON(http.StatusOK, gin.H{"data": Course})
 }

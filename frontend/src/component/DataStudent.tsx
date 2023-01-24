@@ -45,8 +45,6 @@ function DataStudent() {
 
   /////////////////////////////////////////////////////
 
-
-
   /////////////////////////////////////////////////////
 
   useEffect(() => {
@@ -101,7 +99,7 @@ function DataStudent() {
                     <TableCell align="center">{row.Student_Number}</TableCell>
                     <TableCell align="center">{row.Student_Name}</TableCell>
                     <TableCell align="center">
-                      {row.Student_Identity_Card}{" "}
+                      {row.Student_Identity_Card}
                     </TableCell>
                     <TableCell align="center">{row.Student_Tel} </TableCell>
                     <TableCell align="center">
