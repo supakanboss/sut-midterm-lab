@@ -13,15 +13,17 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { ButtonGroup } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { StudentInterface } from "../model/IStudent";
 
 import Homebar from "./Homebar";
-import CreateStudent from "./CreateStudent";
 
 function DataStudent() {
   /////////////////////////////////////////////////////
+
+  let navigate = useNavigate();
 
   const [Studentstable, setStudentstable] = useState<StudentInterface[]>([]);
 
@@ -42,6 +44,31 @@ function DataStudent() {
         setStudentstable(result.data);
       });
   };
+
+  const DeleteStudent = (id: string) => {
+    console.log(id)
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+  
+    };
+  
+    fetch(`${apiUrl}/delete_student/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res);
+        if (res.data) {
+          // setSuccess(true);
+          alert(`Are you sure delete id: ${id}`)
+          setTimeout(() => {
+            window.location.href = "/DataStudent";
+          }, 500);
+        } else {
+          // setError(true);
+        }
+      });
+  
+  }
 
   /////////////////////////////////////////////////////
 
@@ -104,8 +131,18 @@ function DataStudent() {
                     <TableCell align="center">{row.Student_Tel} </TableCell>
                     <TableCell align="center">
                       <ButtonGroup>
-                        <Button>update</Button>
-                        <Button>
+                        <Button
+                          onClick={() => navigate(`UpdateStudent/${row.ID}`)}
+                        >
+                          update
+                        </Button>
+                        <Button
+                          onClick={() => navigate(`SearchStudent/${row.ID}`)}
+                        >
+                          <SearchIcon />
+                        </Button>
+                        <Button 
+                          onClick={() => DeleteStudent(row.ID + "")} >
                           <DeleteOutlineIcon />
                         </Button>
                       </ButtonGroup>

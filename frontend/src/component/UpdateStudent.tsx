@@ -12,10 +12,9 @@ import { FormControl } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useParams } from "react-router-dom";
 
 import Homebar from "./Homebar";
-import DataStudent from "./DataStudent";
 
 import { InstituteInterface } from "../model/IInstitute";
 import { BranchInterface } from "../model/IBranch";
@@ -28,6 +27,8 @@ import { StudentInterface } from "../model/IStudent";
 
 function UpdateStudent() {
   /////////////////////////////////////////////////////
+
+  let { id } = useParams();
 
   const [institute, setInstitute] = useState<InstituteInterface[]>([]);
   const [branch, setBranch] = useState<BranchInterface[]>([]);
@@ -55,6 +56,14 @@ function UpdateStudent() {
     headers: { "Content-Type": "application/json" },
   };
   /////////////////// combobox /////////////////////////
+
+  const feachStudentByID = async () => {
+    fetch(`${apiUrl}/student/${id}`, requestOpionsGet)
+      .then((response) => response.json())
+      .then((result) => {
+        result.data && setStudent(result.data);
+      });
+  };
 
   const feachInstitute = async () => {
     fetch(`${apiUrl}/institute`, requestOpionsGet)
@@ -146,60 +155,61 @@ function UpdateStudent() {
     feachPrefix();
     feachGender();
     feachProvince();
+    feachStudentByID();
   }, []);
 
   /////////////////////////////////////////////////////
 
-//   //ตัวรับข้อมูลเข้าตาราง
-//   function submit() {
-//     let data = {
-//       //AdminID: student.AdminID,
-//       GenderID:
-//         typeof student.GenderID === "string" ? parseInt(student.GenderID) : 0,
-//       DegreeID:
-//         typeof student.DegreeID === "string" ? parseInt(student.DegreeID) : 0,
-//       PrefixID:
-//         typeof student.PrefixID === "string" ? parseInt(student.PrefixID) : 0,
-//       InstituteID:
-//         typeof student.InstituteID === "string" ? parseInt(student.InstituteID) : 0,
-//       ProvinceID:
-//         typeof student.ProvinceID === "string" ? parseInt(student.ProvinceID) : 0,
-//       BranchID:
-//         typeof student.BranchID === "string" ? parseInt(student.BranchID) : 0,
-//       CourseID:
-//         typeof student.CourseID === "string" ? parseInt(student.CourseID) : 0,
-//       Student_Year_Of_Entry: Student_Year_Of_Entry,
-//       Student_Number: student.Student_Number,
-//       Student_Name: student.Student_Name,
-//       Student_Birthday: Student_Birthday,
-//       Student_Tel: student.Student_Tel,
-//       Student_Identity_Card: student.Student_Identity_Card,
-//       Student_Nationality: student.Student_Nationality,
-//       Student_Religion: student.Student_Religion,
-//       Student_Fathers_Name: student.Student_Fathers_Name,
-//       Student_Mothers_Name: student.Student_Mothers_Name,
-//     };
+  const convertType = (data: string | number | undefined) => {
+    let val = typeof data === "string" ? parseInt(data) : data;
+    return val;
+  };
 
-//     const requestOptions = {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(data),
-//     };
+  //ตัวรับข้อมูลเข้าตาราง
+  function update() {
+    let data = {
+      ID: convertType(id),
+      //AdminID: student.AdminID,
+      GenderID: convertType(student.GenderID),
+      DegreeID: convertType(student.DegreeID),
+      PrefixID: convertType(student.PrefixID),
+      InstituteID: convertType(student.InstituteID),
+      ProvinceID: convertType(student.ProvinceID),
+      BranchID: convertType(student.BranchID),
+      CourseID: convertType(student.CourseID),
+      Student_Year_Of_Entry: Student_Year_Of_Entry,
+      Student_Number: student.Student_Number,
+      Student_Name: student.Student_Name,
+      Student_Birthday: Student_Birthday,
+      Student_Tel: student.Student_Tel,
+      Student_Identity_Card: student.Student_Identity_Card,
+      Student_Nationality: student.Student_Nationality,
+      Student_Religion: student.Student_Religion,
+      Student_Address: student.Student_Address,
+      Student_Fathers_Name: student.Student_Fathers_Name,
+      Student_Mothers_Name: student.Student_Mothers_Name,
+    };
 
-//     fetch(`${apiUrl}/create_Student`, requestOptions)
-//       .then((response) => response.json())
-//       .then((res) => {
-//         console.log(res);
-//         if (res.data) {
-//           setSuccess(true);
-//           setTimeout(() => {
-//             window.location.href = "/DataStudent";
-//           }, 500);
-//         } else {
-//           setError(true);
-//         }
-//       });
-//   }
+    const requestOptions = {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    };
+
+    fetch(`${apiUrl}/update_student`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res);
+        if (res.data) {
+          setSuccess(true);
+          setTimeout(() => {
+            window.location.href = "/DataStudent";
+          }, 500);
+        } else {
+          setError(true);
+        }
+      });
+  }
 
   /////////////////////////////////////////////////////
 
@@ -254,7 +264,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Name"
                       type="string"
-                      label="ชื่อ-สกุล"
                       variant="outlined"
                       name="Student_Name"
                       value={student.Student_Name}
@@ -289,7 +298,6 @@ function UpdateStudent() {
                         <DatePicker
                           renderInput={(params) => <TextField {...params} />}
                           value={Student_Birthday}
-                          label="วันเกิด"
                           onChange={setStudent_Birthday}
                         />
                       </LocalizationProvider>
@@ -302,7 +310,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Tel"
                       type="string"
-                      label="เบอร์โทรศัพท์"
                       variant="outlined"
                       name="Student_Tel"
                       value={student.Student_Tel}
@@ -316,7 +323,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Identity_Card"
                       type="string"
-                      label="รหัสบัตรประชาชน"
                       variant="outlined"
                       name="Student_Identity_Card"
                       value={student.Student_Identity_Card}
@@ -330,7 +336,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Fathers_Name"
                       type="string"
-                      label="ชื่อ-สกุล บิดา"
                       variant="outlined"
                       name="Student_Fathers_Name"
                       value={student.Student_Fathers_Name}
@@ -344,7 +349,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Mothers_Name"
                       type="string"
-                      label="ชื่อ-สกุล มารดา"
                       variant="outlined"
                       name="Student_Mothers_Name"
                       value={student.Student_Mothers_Name}
@@ -358,7 +362,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Nationality"
                       type="string"
-                      label="สัญชาติ"
                       variant="outlined"
                       name="Student_Nationality"
                       value={student.Student_Nationality}
@@ -371,7 +374,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Religion"
                       type="string"
-                      label="ศาสนา"
                       variant="outlined"
                       name="Student_Religion"
                       value={student.Student_Religion}
@@ -406,7 +408,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Address"
                       type="string"
-                      label="ที่อยู่"
                       variant="outlined"
                       name="Student_Address"
                       value={student.Student_Address}
@@ -507,7 +508,6 @@ function UpdateStudent() {
                         <DatePicker
                           renderInput={(params) => <TextField {...params} />}
                           value={Student_Year_Of_Entry}
-                          label="ปีที่เข้าศึกษา"
                           onChange={setStudent_Year_Of_Entry}
                         />
                       </LocalizationProvider>
@@ -520,7 +520,6 @@ function UpdateStudent() {
                       fullWidth
                       id="Student_Number"
                       type="string"
-                      label="รหัสนักศึกษา"
                       variant="outlined"
                       name="Student_Number"
                       value={student.Student_Number}
@@ -529,7 +528,14 @@ function UpdateStudent() {
                   </Grid>
                   <Grid item xs={6}></Grid>
                   <Grid item xs={3}>
-                    <Button variant="contained" size="large" fullWidth >
+                    <Button
+                      variant="contained"
+                      size="large"
+                      fullWidth
+                      onClick={update}
+                      component={RouterLink}
+                      to="/DataStudent"
+                    >
                       Update
                     </Button>
                   </Grid>

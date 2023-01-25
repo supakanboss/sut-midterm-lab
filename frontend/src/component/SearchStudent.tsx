@@ -12,10 +12,9 @@ import { FormControl } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useParams } from "react-router-dom";
 
 import Homebar from "./Homebar";
-import DataStudent from "./DataStudent";
 
 import { InstituteInterface } from "../model/IInstitute";
 import { BranchInterface } from "../model/IBranch";
@@ -26,8 +25,10 @@ import { GenderInterface } from "../model/IGender";
 import { ProvinceInterface } from "../model/IProvince";
 import { StudentInterface } from "../model/IStudent";
 
-function CreateStudent() {
+function UpdateStudent() {
   /////////////////////////////////////////////////////
+
+  let { id } = useParams();
 
   const [institute, setInstitute] = useState<InstituteInterface[]>([]);
   const [branch, setBranch] = useState<BranchInterface[]>([]);
@@ -55,6 +56,14 @@ function CreateStudent() {
     headers: { "Content-Type": "application/json" },
   };
   /////////////////// combobox /////////////////////////
+
+  const feachStudentByID = async () => {
+    fetch(`${apiUrl}/student/${id}`, requestOpionsGet)
+      .then((response) => response.json())
+      .then((result) => {
+        result.data && setStudent(result.data);
+      });
+  };
 
   const feachInstitute = async () => {
     fetch(`${apiUrl}/institute`, requestOpionsGet)
@@ -146,30 +155,28 @@ function CreateStudent() {
     feachPrefix();
     feachGender();
     feachProvince();
+    feachStudentByID();
   }, []);
 
   /////////////////////////////////////////////////////
 
+  const convertType = (data: string | number | undefined) => {
+    let val = typeof data === "string" ? parseInt(data) : data;
+    return val;
+  };
+
   //ตัวรับข้อมูลเข้าตาราง
-  function submit() {
+  function update() {
     let data = {
-      //////////////////////////////
+      ID: convertType(id),
       //AdminID: student.AdminID,
-      /////////////////////////////
-      GenderID:
-        typeof student.GenderID === "string" ? parseInt(student.GenderID) : 0,
-      DegreeID:
-        typeof student.DegreeID === "string" ? parseInt(student.DegreeID) : 0,
-      PrefixID:
-        typeof student.PrefixID === "string" ? parseInt(student.PrefixID) : 0,
-      InstituteID:
-        typeof student.InstituteID === "string" ? parseInt(student.InstituteID) : 0,
-      ProvinceID:
-        typeof student.ProvinceID === "string" ? parseInt(student.ProvinceID) : 0,
-      BranchID:
-        typeof student.BranchID === "string" ? parseInt(student.BranchID) : 0,
-      CourseID:
-        typeof student.CourseID === "string" ? parseInt(student.CourseID) : 0,
+      GenderID: convertType(student.GenderID),
+      DegreeID: convertType(student.DegreeID),
+      PrefixID: convertType(student.PrefixID),
+      InstituteID: convertType(student.InstituteID),
+      ProvinceID: convertType(student.ProvinceID),
+      BranchID: convertType(student.BranchID),
+      CourseID: convertType(student.CourseID),
       Student_Year_Of_Entry: Student_Year_Of_Entry,
       Student_Number: student.Student_Number,
       Student_Name: student.Student_Name,
@@ -178,18 +185,17 @@ function CreateStudent() {
       Student_Identity_Card: student.Student_Identity_Card,
       Student_Nationality: student.Student_Nationality,
       Student_Religion: student.Student_Religion,
-      Student_Address: student.Student_Address,
       Student_Fathers_Name: student.Student_Fathers_Name,
       Student_Mothers_Name: student.Student_Mothers_Name,
     };
 
     const requestOptions = {
-      method: "POST",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
 
-    fetch(`${apiUrl}/create_Student`, requestOptions)
+    fetch(`${apiUrl}/update_student`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
         console.log(res);
@@ -216,7 +222,7 @@ function CreateStudent() {
             <Box display={"flex"}>
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h5" gutterBottom>
-                  CreateStudent
+                  SearchStudent
                 </Typography>
               </Box>
             </Box>
@@ -234,6 +240,7 @@ function CreateStudent() {
                   <Grid item xs={2}>
                     <p>คำนำหน้า </p>
                     <Select
+                      disabled
                       fullWidth
                       id="Prefix"
                       onChange={handleChange}
@@ -255,9 +262,9 @@ function CreateStudent() {
                     <p>ชื่อ-สกุล</p>
                     <TextField
                       fullWidth
+                      disabled
                       id="Student_Name"
                       type="string"
-                      label="ชื่อ-สกุล"
                       variant="outlined"
                       name="Student_Name"
                       value={student.Student_Name}
@@ -269,6 +276,7 @@ function CreateStudent() {
                     <p>เพศ </p>
                     <Select
                       fullWidth
+                      disabled
                       id="Gender"
                       onChange={handleChange}
                       native
@@ -292,8 +300,8 @@ function CreateStudent() {
                         <DatePicker
                           renderInput={(params) => <TextField {...params} />}
                           value={Student_Birthday}
-                          label="วันเกิด"
                           onChange={setStudent_Birthday}
+                          disabled
                         />
                       </LocalizationProvider>
                     </FormControl>
@@ -305,9 +313,9 @@ function CreateStudent() {
                       fullWidth
                       id="Student_Tel"
                       type="string"
-                      label="เบอร์โทรศัพท์"
                       variant="outlined"
                       name="Student_Tel"
+                      disabled
                       value={student.Student_Tel}
                       onChange={handleInputChange}
                     />
@@ -319,9 +327,9 @@ function CreateStudent() {
                       fullWidth
                       id="Student_Identity_Card"
                       type="string"
-                      label="รหัสบัตรประชาชน"
                       variant="outlined"
                       name="Student_Identity_Card"
+                      disabled
                       value={student.Student_Identity_Card}
                       onChange={handleInputChange}
                     />
@@ -333,9 +341,9 @@ function CreateStudent() {
                       fullWidth
                       id="Student_Fathers_Name"
                       type="string"
-                      label="ชื่อ-สกุล บิดา"
                       variant="outlined"
                       name="Student_Fathers_Name"
+                      disabled
                       value={student.Student_Fathers_Name}
                       onChange={handleInputChange}
                     />
@@ -347,9 +355,9 @@ function CreateStudent() {
                       fullWidth
                       id="Student_Mothers_Name"
                       type="string"
-                      label="ชื่อ-สกุล มารดา"
                       variant="outlined"
                       name="Student_Mothers_Name"
+                      disabled
                       value={student.Student_Mothers_Name}
                       onChange={handleInputChange}
                     />
@@ -361,9 +369,9 @@ function CreateStudent() {
                       fullWidth
                       id="Student_Nationality"
                       type="string"
-                      label="สัญชาติ"
                       variant="outlined"
                       name="Student_Nationality"
+                      disabled
                       value={student.Student_Nationality}
                       onChange={handleInputChange}
                     />
@@ -374,9 +382,9 @@ function CreateStudent() {
                       fullWidth
                       id="Student_Religion"
                       type="string"
-                      label="ศาสนา"
                       variant="outlined"
                       name="Student_Religion"
+                      disabled
                       value={student.Student_Religion}
                       onChange={handleInputChange}
                     />
@@ -389,6 +397,7 @@ function CreateStudent() {
                       id="Province"
                       onChange={handleChange}
                       native
+                      disabled
                       value={student.ProvinceID + ""}
                       inputProps={{ name: "ProvinceID" }}
                     >
@@ -409,9 +418,9 @@ function CreateStudent() {
                       fullWidth
                       id="Student_Address"
                       type="string"
-                      label="ที่อยู่"
                       variant="outlined"
                       name="Student_Address"
+                      disabled
                       value={student.Student_Address}
                       onChange={handleInputChange}
                     />
@@ -428,6 +437,7 @@ function CreateStudent() {
                       id="Institute"
                       onChange={handleChange}
                       native
+                      disabled
                       value={student.InstituteID + ""}
                       inputProps={{ name: "InstituteID" }}
                     >
@@ -448,6 +458,7 @@ function CreateStudent() {
                       id="Branch"
                       onChange={handleChange}
                       native
+                      disabled
                       value={student.BranchID + ""}
                       inputProps={{ name: "BranchID" }}
                     >
@@ -469,6 +480,7 @@ function CreateStudent() {
                       id="Course"
                       onChange={handleChange}
                       native
+                      disabled
                       value={student.CourseID + ""}
                       inputProps={{ name: "CourseID" }}
                     >
@@ -489,6 +501,7 @@ function CreateStudent() {
                       id="Degree"
                       onChange={handleChange}
                       native
+                      disabled
                       value={student.DegreeID + ""}
                       inputProps={{ name: "DegreeID" }}
                     >
@@ -508,9 +521,9 @@ function CreateStudent() {
                       <p>ปีที่เข้าศึกษา</p>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
+                          disabled
                           renderInput={(params) => <TextField {...params} />}
                           value={Student_Year_Of_Entry}
-                          label="ปีที่เข้าศึกษา"
                           onChange={setStudent_Year_Of_Entry}
                         />
                       </LocalizationProvider>
@@ -523,20 +536,15 @@ function CreateStudent() {
                       fullWidth
                       id="Student_Number"
                       type="string"
-                      label="รหัสนักศึกษา"
                       variant="outlined"
                       name="Student_Number"
+                      disabled
                       value={student.Student_Number}
                       onChange={handleInputChange}
                     />
                   </Grid>
                   <Grid item xs={6}></Grid>
-                  <Grid item xs={3}>
-                    <Button variant="contained" size="large" fullWidth onClick={submit}>
-                      submit
-                    </Button>
-                  </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={6}>
                     <Button
                       variant="contained"
                       size="large"
@@ -557,4 +565,4 @@ function CreateStudent() {
     </div>
   );
 }
-export default CreateStudent;
+export default UpdateStudent;
