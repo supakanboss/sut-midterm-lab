@@ -1,33 +1,39 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import { slide as Menu } from "react-burger-menu";
+import "./Sidebar.css";
+import {
+  BiHomeAlt,
+  BiUser,
+  BiMedal,
+  BiLogInCircle,
+  BiLogOutCircle
+} from "react-icons/bi";
 
-function Homebar() {
+type SidemenuProps = {
+  pageWrapId: string;
+  outerContainerId: string;
+};
+
+export const Homebar = ({ pageWrapId, outerContainerId }: SidemenuProps) => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            SE
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <Menu>
+      <p className="memu-title">Menu</p>
+      <a className="menu-item" href="/">
+        <BiHomeAlt />
+        Home
+      </a>
+      <a className="menu-item" href="/DataStudent">
+        <BiUser />
+        User
+      </a>
+      <a className="menu-item" href="/CreateStudent">
+        <BiMedal />
+        Result
+      </a>
+      <a className="menu-item" href="/login">
+        <BiLogInCircle />
+        Log in
+      </a>
+      
+    </Menu>
   );
-}
-
-export default Homebar;
+};

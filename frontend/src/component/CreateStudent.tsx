@@ -14,7 +14,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Link as RouterLink } from "react-router-dom";
 
-import Homebar from "./Homebar";
+import { Homebar } from "./Homebar";
 import DataStudent from "./DataStudent";
 
 import { InstituteInterface } from "../model/IInstitute";
@@ -207,8 +207,13 @@ function CreateStudent() {
   /////////////////////////////////////////////////////
 
   return (
-    <div>
-      <Homebar />
+    <div className="CreateStudent" id="outer-container">
+      <Homebar
+        pageWrapId={"page-CreateStudent"}
+        outerContainerId={"outer-container"}
+      />
+      <div id="page-CreateStudent">
+      
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="lg" sx={{ padding: 2 }}>
@@ -554,6 +559,7 @@ function CreateStudent() {
           </Paper>
         </Container>
       </React.Fragment>
+      </div >
     </div>
   );
 }

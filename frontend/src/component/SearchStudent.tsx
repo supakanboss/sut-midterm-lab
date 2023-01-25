@@ -14,7 +14,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Link as RouterLink, useParams } from "react-router-dom";
 
-import Homebar from "./Homebar";
+import { Homebar } from "./Homebar";
 
 import { InstituteInterface } from "../model/IInstitute";
 import { BranchInterface } from "../model/IBranch";
@@ -25,7 +25,7 @@ import { GenderInterface } from "../model/IGender";
 import { ProvinceInterface } from "../model/IProvince";
 import { StudentInterface } from "../model/IStudent";
 
-function UpdateStudent() {
+function SearchStudent() {
   /////////////////////////////////////////////////////
 
   let { id } = useParams();
@@ -213,8 +213,9 @@ function UpdateStudent() {
   /////////////////////////////////////////////////////
 
   return (
-    <div>
-      <Homebar />
+      <div className="SearchStudent" id="outer-container">
+      <Homebar pageWrapId={"page-SearchStudent"} outerContainerId={"outer-container"} />
+      <div id="page-SearchStudent">
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="lg" sx={{ padding: 2 }}>
@@ -562,7 +563,8 @@ function UpdateStudent() {
           </Paper>
         </Container>
       </React.Fragment>
+      </div>
     </div>
   );
 }
-export default UpdateStudent;
+export default SearchStudent;

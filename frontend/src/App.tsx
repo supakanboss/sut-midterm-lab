@@ -1,5 +1,5 @@
 import Home from "./component/Home";
-import Homebar from "./component/Homebar";
+import {Homebar} from "./component/Homebar";
 import DataStudent from "./component/DataStudent";
 import CreateStudent from "./component/CreateStudent";
 import UpdateStudent from "./component/UpdateStudent";
@@ -15,6 +15,7 @@ function App() {
           <Route path="/CreateStudent" element={<CreateStudent />} />
           <Route path="/DataStudent/UpdateStudent/:id" element={<UpdateStudent />} />
           <Route path="/DataStudent/SearchStudent/:id" element={<SearchStudent />} />
+          
 
         </Routes>
 
