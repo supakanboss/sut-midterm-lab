@@ -45,7 +45,7 @@ function DataStudent() {
 
   /////////////////////////////////////////////////////
   const apiUrl = "http://localhost:8080";
-  const requestOpionsGet = {
+  const requestOptionsGet = {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   };
@@ -53,7 +53,7 @@ function DataStudent() {
 
   //แสดงข้อมูล student ทั้งหมด
   const feachStudentstable = async () => {
-    fetch(`${apiUrl}/student_table`, requestOpionsGet)
+    fetch(`${apiUrl}/student_table`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);

@@ -65,14 +65,14 @@ function CreateStudent() {
 
   /////////////////////////////////////////////////////
   const apiUrl = "http://localhost:8080";
-  const requestOpionsGet = {
+  const requestOptionsGet = {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   };
   /////////////////// combobox /////////////////////////
 
   const feachInstitute = async () => {
-    fetch(`${apiUrl}/institute`, requestOpionsGet)
+    fetch(`${apiUrl}/institute`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
@@ -81,7 +81,7 @@ function CreateStudent() {
   };
 
   const feachBranch = async () => {
-    fetch(`${apiUrl}/branch`, requestOpionsGet)
+    fetch(`${apiUrl}/branch`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
@@ -90,7 +90,7 @@ function CreateStudent() {
   };
 
   const feachCourse = async () => {
-    fetch(`${apiUrl}/course`, requestOpionsGet)
+    fetch(`${apiUrl}/course`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
@@ -99,7 +99,7 @@ function CreateStudent() {
   };
 
   const feachDegree = async () => {
-    fetch(`${apiUrl}/degree`, requestOpionsGet)
+    fetch(`${apiUrl}/degree`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
@@ -108,7 +108,7 @@ function CreateStudent() {
   };
 
   const feachPrefix = async () => {
-    fetch(`${apiUrl}/prefix`, requestOpionsGet)
+    fetch(`${apiUrl}/prefix`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
@@ -117,7 +117,7 @@ function CreateStudent() {
   };
 
   const feachGender = async () => {
-    fetch(`${apiUrl}/gender`, requestOpionsGet)
+    fetch(`${apiUrl}/gender`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
@@ -126,7 +126,7 @@ function CreateStudent() {
   };
 
   const feachProvince = async () => {
-    fetch(`${apiUrl}/province`, requestOpionsGet)
+    fetch(`${apiUrl}/province`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.data);
