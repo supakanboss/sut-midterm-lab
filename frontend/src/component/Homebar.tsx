@@ -1,12 +1,7 @@
 import { slide as Menu } from "react-burger-menu";
 import "./Sidebar.css";
-import {
-  BiHomeAlt,
-  BiUser,
-  BiMedal,
-  BiLogInCircle,
-  BiLogOutCircle
-} from "react-icons/bi";
+import { IoIosLogIn } from "react-icons/io";
+import { MdAdminPanelSettings } from "react-icons/md";
 
 type SidemenuProps = {
   pageWrapId: string;
@@ -16,24 +11,15 @@ type SidemenuProps = {
 export const Homebar = ({ pageWrapId, outerContainerId }: SidemenuProps) => {
   return (
     <Menu>
-      <p className="memu-title">Menu</p>
-      <a className="menu-item" href="/">
-        <BiHomeAlt />
-        Home
+      <p className="memu-title">MENU</p>
+      <a className="menu-item" href="/HomeStudent">
+        <IoIosLogIn />
+        STUDENT LOG IN
       </a>
-      <a className="menu-item" href="/DataStudent">
-        <BiUser />
-        User
+      <a className="menu-item logout" href="/HomeAdmin">
+        <MdAdminPanelSettings />
+        ADMIN LOG IN
       </a>
-      <a className="menu-item" href="/CreateStudent">
-        <BiMedal />
-        Result
-      </a>
-      <a className="menu-item" href="/login">
-        <BiLogInCircle />
-        Log in
-      </a>
-      
     </Menu>
   );
 };

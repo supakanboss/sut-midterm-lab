@@ -4,12 +4,12 @@ import Box from "@mui/material/Box";
 import { CssBaseline } from "@mui/material";
 import React from "react";
 
-import { Homebar } from "./Homebar";
+import { Adminbar } from "./Adminbar";
 
-function Home() {
+function HomeAdmin() {
   return (
     <div className="Home" id="outer-container">
-      <Homebar pageWrapId={"page-Home"} outerContainerId={"outer-container"} />
+      <Adminbar pageWrapId={"page-Home"} outerContainerId={"outer-container"} />
       <div id="page-Home">
         <React.Fragment>
           <CssBaseline />
@@ -21,7 +21,7 @@ function Home() {
               md={12}
               sx={{
                 backgroundImage:
-                  "url(https://images.unsplash.com/photo-1571235854001-2c64e3fdd06a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)",
+                  "url(https://images.unsplash.com/photo-1542640244-7e672d6cef4e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80)",
                 backgroundRepeat: "secondary",
                 backgroundColor: (t) =>
                   t.palette.mode === "dark"
@@ -35,7 +35,7 @@ function Home() {
                 <Container>
                   <Box>
                     <h1 style={{ textAlign: "center", color: "#ffffff" }}>
-                      เป็นควยอะไรมากไหมไอ้สัสนรกเย็สแม่
+                      งงมากงับ
                     </h1>
                   </Box>
                 </Container>
@@ -48,4 +48,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomeAdmin;

@@ -1,5 +1,6 @@
 import Home from "./component/Home";
-import {Homebar} from "./component/Homebar";
+import HomeStudent from "./component/HomeStudent";
+import HomeAdmin from "./component/HomeAdmin";
 import DataStudent from "./component/DataStudent";
 import CreateStudent from "./component/CreateStudent";
 import UpdateStudent from "./component/UpdateStudent";
@@ -11,6 +12,8 @@ function App() {
         <Routes>
           
           <Route path="/" element={<Home />} />
+          <Route path="/HomeStudent" element={<HomeStudent />} />
+          <Route path="/HomeAdmin" element={<HomeAdmin />} />
           <Route path="/DataStudent" element={<DataStudent />} />
           <Route path="/CreateStudent" element={<CreateStudent />} />
           <Route path="/DataStudent/UpdateStudent/:id" element={<UpdateStudent />} />

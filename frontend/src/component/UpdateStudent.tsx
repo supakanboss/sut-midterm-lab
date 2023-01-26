@@ -13,8 +13,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Link as RouterLink, useParams } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-import { Homebar } from "./Homebar";
+import { Adminbar } from "./Adminbar";
 
 import { InstituteInterface } from "../model/IInstitute";
 import { BranchInterface } from "../model/IBranch";
@@ -24,6 +26,20 @@ import { PrefixInterface } from "../model/IPrefix";
 import { GenderInterface } from "../model/IGender";
 import { ProvinceInterface } from "../model/IProvince";
 import { StudentInterface } from "../model/IStudent";
+
+const Theme = createTheme({
+  palette: {
+    primary: {
+      main: "#313131",
+    },
+    secondary: {
+      main: "#C70039",
+    },
+    info: {
+      main: "#164DC9",
+    },
+  },
+});
 
 function UpdateStudent() {
   /////////////////////////////////////////////////////
@@ -215,7 +231,8 @@ function UpdateStudent() {
 
   return (
     <div className="UpdateStudent" id="outer-container">
-      <Homebar
+      <ThemeProvider theme={Theme}>
+      <Adminbar
         pageWrapId={"page-UpdateStudent"}
         outerContainerId={"outer-container"}
       />
@@ -225,9 +242,16 @@ function UpdateStudent() {
           <Container maxWidth="lg" sx={{ padding: 2 }}>
             <Paper sx={{ padding: 2 }}>
               <Box display={"flex"}>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Typography variant="h5" gutterBottom>
-                    UpdateStudent
+                <Box sx={{ flexGrow: 1 }}>  
+                  <Typography variant="h4" gutterBottom>
+                    <Button 
+                    color="inherit"
+                    component={RouterLink}
+                    to="/DataStudent"
+                    >
+                      <FiArrowLeft size="30"/ >
+                    </Button>
+                    UPDATE STUDENT
                   </Typography>
                 </Box>
               </Box>
@@ -536,6 +560,7 @@ function UpdateStudent() {
                         variant="contained"
                         size="large"
                         fullWidth
+                        color="primary"
                         onClick={update}
                         component={RouterLink}
                         to="/DataStudent"
@@ -548,6 +573,7 @@ function UpdateStudent() {
                         variant="contained"
                         size="large"
                         fullWidth
+                        color="primary"
                         component={RouterLink}
                         to="/DataStudent"
                       >
@@ -562,6 +588,7 @@ function UpdateStudent() {
           </Container>
         </React.Fragment>
       </div>
+      </ThemeProvider>
     </div>
   );
 }

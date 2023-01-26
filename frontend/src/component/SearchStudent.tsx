@@ -13,8 +13,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Link as RouterLink, useParams } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-import { Homebar } from "./Homebar";
+import { Adminbar } from "./Adminbar";
 
 import { InstituteInterface } from "../model/IInstitute";
 import { BranchInterface } from "../model/IBranch";
@@ -24,6 +26,20 @@ import { PrefixInterface } from "../model/IPrefix";
 import { GenderInterface } from "../model/IGender";
 import { ProvinceInterface } from "../model/IProvince";
 import { StudentInterface } from "../model/IStudent";
+
+const Theme = createTheme({
+  palette: {
+    primary: {
+      main: "#313131",
+    },
+    secondary: {
+      main: "#C70039",
+    },
+    info: {
+      main: "#164DC9",
+    },
+  },
+});
 
 function SearchStudent() {
   /////////////////////////////////////////////////////
@@ -159,62 +175,10 @@ function SearchStudent() {
   }, []);
 
   /////////////////////////////////////////////////////
-
-  const convertType = (data: string | number | undefined) => {
-    let val = typeof data === "string" ? parseInt(data) : data;
-    return val;
-  };
-
-  //ตัวรับข้อมูลเข้าตาราง
-  function update() {
-    let data = {
-      ID: convertType(id),
-      //AdminID: student.AdminID,
-      GenderID: convertType(student.GenderID),
-      DegreeID: convertType(student.DegreeID),
-      PrefixID: convertType(student.PrefixID),
-      InstituteID: convertType(student.InstituteID),
-      ProvinceID: convertType(student.ProvinceID),
-      BranchID: convertType(student.BranchID),
-      CourseID: convertType(student.CourseID),
-      Student_Year_Of_Entry: Student_Year_Of_Entry,
-      Student_Number: student.Student_Number,
-      Student_Name: student.Student_Name,
-      Student_Birthday: Student_Birthday,
-      Student_Tel: student.Student_Tel,
-      Student_Identity_Card: student.Student_Identity_Card,
-      Student_Nationality: student.Student_Nationality,
-      Student_Religion: student.Student_Religion,
-      Student_Fathers_Name: student.Student_Fathers_Name,
-      Student_Mothers_Name: student.Student_Mothers_Name,
-    };
-
-    const requestOptions = {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-
-    fetch(`${apiUrl}/update_student`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setSuccess(true);
-          setTimeout(() => {
-            window.location.href = "/DataStudent";
-          }, 500);
-        } else {
-          setError(true);
-        }
-      });
-  }
-
-  /////////////////////////////////////////////////////
-
   return (
       <div className="SearchStudent" id="outer-container">
-      <Homebar pageWrapId={"page-SearchStudent"} outerContainerId={"outer-container"} />
+        <ThemeProvider theme={Theme}>
+      <Adminbar pageWrapId={"page-SearchStudent"} outerContainerId={"outer-container"} />
       <div id="page-SearchStudent">
       <React.Fragment>
         <CssBaseline />
@@ -222,8 +186,15 @@ function SearchStudent() {
           <Paper sx={{ padding: 2 }}>
             <Box display={"flex"}>
               <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h5" gutterBottom>
-                  SearchStudent
+                <Typography variant="h4" gutterBottom>
+                <Button
+                      color="inherit"
+                      component={RouterLink}
+                      to="/DataStudent"
+                    >
+                      <FiArrowLeft size="30" />
+                    </Button>
+                  SEARCH STUDENT
                 </Typography>
               </Box>
             </Box>
@@ -550,6 +521,7 @@ function SearchStudent() {
                       variant="contained"
                       size="large"
                       fullWidth
+                      color="primary"
                       component={RouterLink}
                       to="/DataStudent"
                     >
@@ -564,6 +536,7 @@ function SearchStudent() {
         </Container>
       </React.Fragment>
       </div>
+      </ThemeProvider>
     </div>
   );
 }

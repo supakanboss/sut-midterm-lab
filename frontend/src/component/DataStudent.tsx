@@ -15,10 +15,26 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { ButtonGroup } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { HiHome } from "react-icons/hi";
 
 import { StudentInterface } from "../model/IStudent";
 
-import { Homebar } from "./Homebar";
+import { Adminbar } from "./Adminbar";
+
+const Theme = createTheme({
+  palette: {
+    primary: {
+      main: "#313131",
+    },
+    secondary: {
+      main: "#C70039",
+    },
+    info: {
+      main: "#164DC9",
+    },
+  },
+});
 
 function DataStudent() {
   /////////////////////////////////////////////////////
@@ -80,82 +96,104 @@ function DataStudent() {
 
   return (
     <div className="DataStudent" id="outer-container">
-      <Homebar
-        pageWrapId={"page-DataStudent"}
-        outerContainerId={"outer-container"}
-      />
-      <div id="page-DataStudent">
-        <React.Fragment>
-          <CssBaseline />
-          <Container maxWidth="lg" sx={{ padding: 2 }}>
-            <Paper sx={{ padding: 2 }}>
-              <Box display={"flex"}>
-                <Box sx={{ flexGrow: 1 }}>
-                  <Typography variant="h5" gutterBottom>
-                    Student
-                  </Typography>
-                </Box>
-                <Box>
-                  <Button
-                    variant="contained"
+      <ThemeProvider theme={Theme}>
+        <Adminbar
+          pageWrapId={"page-DataStudent"}
+          outerContainerId={"outer-container"}
+        />
+        <div id="page-DataStudent">
+          <React.Fragment>
+            <CssBaseline />
+            <Container maxWidth="lg" sx={{ padding: 2 }}>
+              <Paper sx={{ padding: 2 }}>
+                <Box display={"flex"}>
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Typography variant="h4" gutterBottom >
+                    <Button 
+                    color="inherit"
                     component={RouterLink}
-                    to="/CreateStudent"
-                  >
-                    create
-                  </Button>
-                </Box>
-              </Box>
-            </Paper>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">ID</TableCell>
-                    <TableCell align="center">Student_Number</TableCell>
-                    <TableCell align="center">Student_Name</TableCell>
-                    <TableCell align="center">Student_Identity_Card</TableCell>
-                    <TableCell align="center">Student_Tel</TableCell>
-                    <TableCell align="center"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {Studentstable.map((row) => (
-                    <TableRow
-                      key={row.ID}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    to="/HomeAdmin"
                     >
-                      <TableCell align="center">{row.ID}</TableCell>
-                      <TableCell align="center">{row.Student_Number}</TableCell>
-                      <TableCell align="center">{row.Student_Name}</TableCell>
+                      <HiHome size="30"/ >
+                    </Button>
+                      STUDENT
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Button
+                      variant="contained"
+                      component={RouterLink}
+                      to="/CreateStudent"
+                      color="primary"
+                      size="large"
+                    >
+                      create
+                    </Button>
+                  </Box>
+                </Box>
+              </Paper>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell align="center">ID</TableCell>
+                      <TableCell align="center">Student_Number</TableCell>
+                      <TableCell align="center">Student_Name</TableCell>
                       <TableCell align="center">
-                        {row.Student_Identity_Card}
+                        Student_Identity_Card
                       </TableCell>
-                      <TableCell align="center">{row.Student_Tel} </TableCell>
-                      <TableCell align="center">
-                        <ButtonGroup>
-                          <Button
-                            onClick={() => navigate(`UpdateStudent/${row.ID}`)}
-                          >
-                            update
-                          </Button>
-                          <Button
-                            onClick={() => navigate(`SearchStudent/${row.ID}`)}
-                          >
-                            <SearchIcon />
-                          </Button>
-                          <Button onClick={() => DeleteStudent(row.ID + "")}>
-                            <DeleteOutlineIcon />
-                          </Button>
-                        </ButtonGroup>
-                      </TableCell>
+                      <TableCell align="center">Student_Tel</TableCell>
+                      <TableCell align="center"></TableCell>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Container>
-        </React.Fragment>
-      </div>
+                  </TableHead>
+                  <TableBody>
+                    {Studentstable.map((row) => (
+                      <TableRow
+                        key={row.ID}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="center">{row.ID}</TableCell>
+                        <TableCell align="center">
+                          {row.Student_Number}
+                        </TableCell>
+                        <TableCell align="center">{row.Student_Name}</TableCell>
+                        <TableCell align="center">
+                          {row.Student_Identity_Card}
+                        </TableCell>
+                        <TableCell align="center">{row.Student_Tel} </TableCell>
+                        <TableCell align="center">
+                          <ButtonGroup>
+                            <Button
+                              onClick={() =>
+                                navigate(`UpdateStudent/${row.ID}`)
+                              }
+                              color="info"
+                            >
+                              update
+                            </Button>
+                            <Button
+                              onClick={() =>
+                                navigate(`SearchStudent/${row.ID}`)
+                              }
+                            >
+                              <SearchIcon />
+                            </Button>
+                            <Button onClick={() => DeleteStudent(row.ID + "")} color="secondary">
+                              <DeleteOutlineIcon />
+                            </Button>
+                          </ButtonGroup>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Container>
+          </React.Fragment>
+        </div>
+      </ThemeProvider>
     </div>
   );
 }
