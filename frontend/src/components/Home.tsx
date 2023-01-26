@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { CssBaseline } from "@mui/material";
 import React from "react";
 
-import { Homebar } from "./Homebar";
+import { Homebar } from "./Bar-Home";
 
 function Home() {
   return (

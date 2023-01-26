@@ -1,5 +1,5 @@
 import { slide as Menu } from "react-burger-menu";
-import "./Sidebar.css";
+import "./Bar.css";
 
 type SidemenuProps = {
   pageWrapId: string;

@@ -1,10 +1,10 @@
-import Home from "./component/Home";
-import HomeStudent from "./component/HomeStudent";
-import HomeAdmin from "./component/HomeAdmin";
-import DataStudent from "./component/DataStudent";
-import CreateStudent from "./component/CreateStudent";
-import UpdateStudent from "./component/UpdateStudent";
-import SearchStudent from "./component/SearchStudent";
+import Home from "./components/Home";
+import HomeStudent from "./components/Home-Student";
+import HomeAdmin from "./components/Home-Admin";
+import DataStudent from "./components/Student/DataStudent";
+import CreateStudent from "./components/Student/CreateStudent";
+import UpdateStudent from "./components/Student/UpdateStudent";
+import SearchStudent from "./components/Student/SearchStudent";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {

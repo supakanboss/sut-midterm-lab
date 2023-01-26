@@ -18,9 +18,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { HiHome } from "react-icons/hi";
 
-import { StudentInterface } from "../model/IStudent";
+import { StudentInterface } from "../../models/IStudent";
 
-import { Adminbar } from "./Adminbar";
+import { Adminbar } from "../Bar-Admin";
 
 const Theme = createTheme({
   palette: {

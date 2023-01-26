@@ -16,17 +16,16 @@ import { Link as RouterLink } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-import { Adminbar } from "./Adminbar";
-import DataStudent from "./DataStudent";
+import { Adminbar } from "../Bar-Admin";
 
-import { InstituteInterface } from "../model/IInstitute";
-import { BranchInterface } from "../model/IBranch";
-import { CourseInterface } from "../model/ICourse";
-import { DegreeInterface } from "../model/IDegree";
-import { PrefixInterface } from "../model/IPrefix";
-import { GenderInterface } from "../model/IGender";
-import { ProvinceInterface } from "../model/IProvince";
-import { StudentInterface } from "../model/IStudent";
+import { InstituteInterface } from "../../models/IInstitute";
+import { BranchInterface } from "../../models/IBranch";
+import { CourseInterface } from "../../models/ICourse";
+import { DegreeInterface } from "../../models/IDegree";
+import { PrefixInterface } from "../../models/IPrefix";
+import { GenderInterface } from "../../models/IGender";
+import { ProvinceInterface } from "../../models/IProvince";
+import { StudentInterface } from "../../models/IStudent";
 
 const Theme = createTheme({
   palette: {
