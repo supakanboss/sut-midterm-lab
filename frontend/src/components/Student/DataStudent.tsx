@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
@@ -17,6 +18,8 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { HiHome } from "react-icons/hi";
+import { BiSearchAlt } from "react-icons/bi";
+
 
 import { StudentInterface } from "../../models/IStudent";
 
@@ -42,6 +45,7 @@ function DataStudent() {
   let navigate = useNavigate();
 
   const [Studentstable, setStudentstable] = useState<StudentInterface[]>([]);
+  const [student, setStudent] = useState<Partial<StudentInterface>>({});
 
   /////////////////////////////////////////////////////
   const apiUrl = "http://localhost:8080";
@@ -86,6 +90,14 @@ function DataStudent() {
 
   /////////////////////////////////////////////////////
 
+  const handleInputChange = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof student;
+    const { value } = event.target;
+    setStudent({ ...student, [id]: value });
+  };
+
   /////////////////////////////////////////////////////
 
   useEffect(() => {
@@ -104,10 +116,10 @@ function DataStudent() {
         <div id="page-DataStudent">
           <React.Fragment>
             <CssBaseline />
-            <Container maxWidth="lg" sx={{ padding: 2 }}>
-              <Paper sx={{ padding: 2 }}>
+            <Container maxWidth="lg">
+              <Paper sx={{ padding: 1 }}>
                 <Box display={"flex"}>
-                  <Box sx={{ flexGrow: 1 }}>
+                  <Box>
                     <Typography variant="h4" gutterBottom >
                     <Button 
                     color="inherit"
@@ -119,7 +131,24 @@ function DataStudent() {
                       STUDENT
                     </Typography>
                   </Box>
-                  <Box>
+                  <Box sx={{marginLeft:20}}>
+                    <Typography variant="h4" gutterBottom >
+                    <TextField
+                        fullWidth
+                        id="Student_Number"
+                        type="string"
+                        label="ค้นหา รหัสนักศึกษา"
+                        variant="standard"
+                        name="Student_Name"
+                        value={student.Student_Number}
+                        onChange={handleInputChange}
+                      />
+                    </Typography>
+                  </Box>
+                    <Button color="inherit">
+                      <BiSearchAlt size="30"/ >
+                    </Button>
+                  <Box sx={{marginLeft:44}}>
                     <Button
                       variant="contained"
                       component={RouterLink}
