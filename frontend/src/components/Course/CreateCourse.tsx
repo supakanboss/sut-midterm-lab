@@ -370,7 +370,7 @@ function CreateCourse() {
                           variant="contained"
                           size="large"
                           fullWidth
-                          color="primary"
+                          color="secondary"
                           component={RouterLink}
                           to="/DataCourse"
                         >

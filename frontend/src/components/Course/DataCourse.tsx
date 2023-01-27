@@ -46,7 +46,6 @@ function DataCourse() {
   const [coursetable, setCoursetable] = useState<CourseInterface[]>([]);
   const [Filter, setFilter] = useState(coursetable);
   const [input, setInput] = useState("");
-  const [course, setCourse] = useState<Partial<CourseInterface>>({});
 
   /////////////////////////////////////////////////////
   const apiUrl = "http://localhost:8080";
@@ -154,7 +153,7 @@ function DataCourse() {
                         variant="contained"
                         component={RouterLink}
                         to="/CreateCourse"
-                        color="primary"
+                        color="secondary"
                         size="large"
                       >
                         create
@@ -167,12 +166,12 @@ function DataCourse() {
                     <TableHead>
                       <TableRow>
                         <TableCell align="center">ID</TableCell>
-                        <TableCell align="center">Course_Name</TableCell>
-                        <TableCell align="center">Course_Degree</TableCell>
-                        <TableCell align="center">Course_Year</TableCell>
-                        <TableCell align="center">Course_Credit</TableCell>
-                        <TableCell align="center">Course_Teacher</TableCell>
-                        <TableCell align="center"></TableCell>
+                        <TableCell align="center">ชื่อ หลักสูตร</TableCell>
+                        <TableCell align="center">ระดับการศึกษา</TableCell>
+                        <TableCell align="center">ปีก่อตั้งหลักสูตรการศึกษา</TableCell>
+                        <TableCell align="center">จำนวนหน่วยกิต</TableCell>
+                        <TableCell align="center">ชื่อ-สกุล อาจารย์</TableCell>
+                        <TableCell align="center">OPTION</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>

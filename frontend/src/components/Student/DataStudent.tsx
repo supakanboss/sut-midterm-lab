@@ -46,7 +46,6 @@ function DataStudent() {
   const [Studentstable, setStudentstable] = useState<StudentInterface[]>([]);
   const [Filter, setFilter] = useState(Studentstable);
   const [input, setInput] = useState("");
-  const [student, setStudent] = useState<Partial<StudentInterface>>({});
 
   /////////////////////////////////////////////////////
   const apiUrl = "http://localhost:8080";
@@ -149,12 +148,12 @@ function DataStudent() {
                     <Box sx={{ marginTop: 2.3 }}>
                       <BiSearchAlt size="30" />
                     </Box>
-                    <Box sx={{ marginLeft: 45, marginTop:0.9 }}>
+                    <Box sx={{ marginLeft: 43.5, marginTop:0.9 }}>
                       <Button
                         variant="contained"
                         component={RouterLink}
                         to="/CreateStudent"
-                        color="primary"
+                        color="secondary"
                         size="large"
                       >
                         create
@@ -167,13 +166,13 @@ function DataStudent() {
                     <TableHead>
                       <TableRow>
                         <TableCell align="center">ID</TableCell>
-                        <TableCell align="center">Student_Number</TableCell>
-                        <TableCell align="center">Student_Name</TableCell>
+                        <TableCell align="center">รหัสนักศึกษา</TableCell>
+                        <TableCell align="center">ชื่อ-สกุล</TableCell>
                         <TableCell align="center">
-                          Student_Identity_Card
+                          รหัสประจำตัวประชาชน
                         </TableCell>
-                        <TableCell align="center">Student_Tel</TableCell>
-                        <TableCell align="center"></TableCell>
+                        <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+                        <TableCell align="center">OPTION</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
