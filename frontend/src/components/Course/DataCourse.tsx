@@ -20,7 +20,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { HiHome } from "react-icons/hi";
 import { BiSearchAlt } from "react-icons/bi";
 
-
 import { CourseInterface } from "../../models/ICourse";
 
 import { Adminbar } from "../Bar-Admin";
@@ -45,6 +44,8 @@ function DataCourse() {
   let navigate = useNavigate();
 
   const [coursetable, setCoursetable] = useState<CourseInterface[]>([]);
+  const [Filter, setFilter] = useState(coursetable);
+  const [input, setInput] = useState("");
   const [course, setCourse] = useState<Partial<CourseInterface>>({});
 
   /////////////////////////////////////////////////////
@@ -90,19 +91,17 @@ function DataCourse() {
 
   /////////////////////////////////////////////////////
 
-  const handleInputChange = (
-    event: React.ChangeEvent<{ id?: string; value: any }>
-  ) => {
-    const id = event.target.id as keyof typeof course;
-    const { value } = event.target;
-    setCourse({ ...course, [id]: value });
-  };
-
-  /////////////////////////////////////////////////////
-
   useEffect(() => {
     feachCoursetable();
   }, []);
+
+  useEffect(() => {
+    const NewFilter = coursetable.filter((coursetable) => {
+      return coursetable.Course_Name.includes(input);
+    });
+
+    setFilter(NewFilter);
+  }, [coursetable, input]);
 
   /////////////////////////////////////////////////////
 
@@ -115,107 +114,123 @@ function DataCourse() {
         />
         <div id="page-DataCourse">
           <React.Fragment>
-            <CssBaseline />
-            <Container maxWidth="lg">
-              <Paper sx={{ padding: 1 }}>
-                <Box display={"flex"}>
-                  <Box>
-                    <Typography variant="h4" gutterBottom >
-                    <Button 
-                    color="inherit"
-                    component={RouterLink}
-                    to="/HomeAdmin"
-                    >
-                      <HiHome size="30"/ >
-                    </Button>
-                      Course
-                    </Typography>
-                  </Box>
-                  <Box sx={{marginLeft:25}}>
-                    <Typography variant="h4" gutterBottom >
-                    <TextField
-                        fullWidth
-                        id="Course_Name"
-                        type="string"
-                        label="ค้นหา หลักสูตร"
-                        variant="standard"
-                        name="Course_Name"
-                        value={course.Course_Name}
-                        onChange={handleInputChange}
-                      />
-                    </Typography>
-                  </Box>
-                    <Button color="inherit">
-                      <BiSearchAlt size="30"/ >
-                    </Button>
-                  <Box sx={{marginLeft:44}}>
-                    <Button
-                      variant="contained"
-                      component={RouterLink}
-                      to="/CreateCourse"
-                      color="primary"
-                      size="large"
-                    >
-                      create
-                    </Button>
-                  </Box>
-                </Box>
-              </Paper>
-              <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center">ID</TableCell>
-                      <TableCell align="center">Course_Name</TableCell>
-                      <TableCell align="center">Course_Degree</TableCell>
-                      <TableCell align="center">Course_Year</TableCell>
-                      <TableCell align="center">Course_Credit</TableCell>
-                      <TableCell align="center">Course_Teacher</TableCell>
-                      <TableCell align="center"></TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {coursetable.map((row) => (
-                      <TableRow
-                        key={row.ID}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
+            <Box sx={{ backgroundColor: "#313131", height: "100vh" }}>
+              <CssBaseline />
+              <Container maxWidth="lg">
+                <Paper sx={{ padding: 1 }}>
+                  <Box display={"flex"}>
+                    <Box sx={{ marginTop: 1.6 }}>
+                      <Typography variant="h4" gutterBottom>
+                        <Button
+                          color="inherit"
+                          component={RouterLink}
+                          to="/HomeAdmin"
+                          sx={{ marginBottom: 0.5 }}
+                        >
+                          <HiHome size="30" />
+                        </Button>
+                        Course
+                      </Typography>
+                    </Box>
+                    <Box sx={{ marginLeft: 25 }}>
+                      <Typography variant="h4" gutterBottom>
+                        <TextField
+                          fullWidth
+                          id="Course_Name"
+                          type="string"
+                          label="ค้นหา หลักสูตร"
+                          variant="standard"
+                          name="Course_Name"
+                          value={input}
+                          onChange={(event) => setInput(event.target.value)}
+                        />
+                      </Typography>
+                    </Box>
+                    <Box sx={{ marginTop: 2.3 }}>
+                      <BiSearchAlt size="30" />
+                    </Box>
+                    <Box sx={{ marginLeft: 50, marginTop:0.9 }}>
+                      <Button
+                        variant="contained"
+                        component={RouterLink}
+                        to="/CreateCourse"
+                        color="primary"
+                        size="large"
                       >
-                        <TableCell align="center">{row.ID}</TableCell>
-                        <TableCell align="center">{row.Course_Name}</TableCell>
-                        <TableCell align="center">{row.Degree.Degree_Name}</TableCell>
-                        <TableCell align="center">{row.Course_Year}</TableCell>
-                        <TableCell align="center">{row.Course_Credit}</TableCell>
-                        <TableCell align="center">{row.Course_Teacher} </TableCell>
-                        <TableCell align="center">
-                          <ButtonGroup>
-                            <Button
-                              onClick={() =>
-                                navigate(`UpdateCourse/${row.ID}`)
-                              }
-                              color="info"
-                            >
-                              update
-                            </Button>
-                            <Button
-                              onClick={() =>
-                                navigate(`SearchCourse/${row.ID}`)
-                              }
-                            >
-                              <SearchIcon />
-                            </Button>
-                            <Button onClick={() => DeleteCourse(row.ID + "")} color="secondary">
-                              <DeleteOutlineIcon />
-                            </Button>
-                          </ButtonGroup>
-                        </TableCell>
+                        create
+                      </Button>
+                    </Box>
+                  </Box>
+                </Paper>
+                <TableContainer component={Paper} sx={{ marginTop: 1 }}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center">ID</TableCell>
+                        <TableCell align="center">Course_Name</TableCell>
+                        <TableCell align="center">Course_Degree</TableCell>
+                        <TableCell align="center">Course_Year</TableCell>
+                        <TableCell align="center">Course_Credit</TableCell>
+                        <TableCell align="center">Course_Teacher</TableCell>
+                        <TableCell align="center"></TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Container>
+                    </TableHead>
+                    <TableBody>
+                      {Filter.map((row) => (
+                        <TableRow
+                          key={row.ID}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell align="center">{row.ID}</TableCell>
+                          <TableCell align="center">
+                            {row.Course_Name}
+                          </TableCell>
+                          <TableCell align="center">
+                            {row.Degree.Degree_Name}
+                          </TableCell>
+                          <TableCell align="center">
+                            {row.Course_Year}
+                          </TableCell>
+                          <TableCell align="center">
+                            {row.Course_Credit}
+                          </TableCell>
+                          <TableCell align="center">
+                            {row.Course_Teacher}{" "}
+                          </TableCell>
+                          <TableCell align="center">
+                            <ButtonGroup>
+                              <Button
+                                onClick={() =>
+                                  navigate(`UpdateCourse/${row.ID}`)
+                                }
+                                color="info"
+                              >
+                                update
+                              </Button>
+                              <Button
+                                onClick={() =>
+                                  navigate(`SearchCourse/${row.ID}`)
+                                }
+                              >
+                                <SearchIcon />
+                              </Button>
+                              <Button
+                                onClick={() => DeleteCourse(row.ID + "")}
+                                color="secondary"
+                              >
+                                <DeleteOutlineIcon />
+                              </Button>
+                            </ButtonGroup>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Container>
+            </Box>
           </React.Fragment>
         </div>
       </ThemeProvider>

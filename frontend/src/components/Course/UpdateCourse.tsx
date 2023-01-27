@@ -185,6 +185,7 @@ function UpdateCourse() {
         />
         <div id="page-CreateStudent">
           <React.Fragment>
+          <Box sx={{ backgroundColor: "#313131", height: "125vh" }}>
             <CssBaseline />
             <Container maxWidth="lg" sx={{ padding: 2 }}>
               <Paper sx={{ padding: 2 }}>
@@ -387,6 +388,7 @@ function UpdateCourse() {
                 </Box>
               </Paper>
             </Container>
+            </Box>
           </React.Fragment>
         </div>
       </ThemeProvider>

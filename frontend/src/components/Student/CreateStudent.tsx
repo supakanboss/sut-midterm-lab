@@ -234,32 +234,34 @@ function CreateStudent() {
       />
       <div id="page-CreateStudent">
         <React.Fragment>
+        <Box sx={{ backgroundColor: "#313131", height: "260vh" }}>
           <CssBaseline />
-          <Container maxWidth="lg" sx={{ padding: 2 }}>
-            <Paper sx={{ padding: 2 }}>
+          <Container maxWidth="lg">
+            <Paper sx={{ padding: 1 }}>
               <Box display={"flex"}>
-                <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ marginTop: 1.6 }}>
                   <Typography variant="h4" gutterBottom>
                     <Button
                       color="inherit"
                       component={RouterLink}
                       to="/DataStudent"
+                      sx={{marginBottom:0.5}}
                     >
                       <FiArrowLeft size="30" />
                     </Button>
-                    CREATESTUDENT
+                    CREATE STUDENT
                   </Typography>
                 </Box>
               </Box>
             </Paper>
           </Container>
-          <Container maxWidth="lg">
+          <Container maxWidth="lg" sx={{marginTop:1}}>
             <Paper sx={{ padding: 2 }}>
               <Box display={"flex"}>
                 <Box sx={{ flexGrow: 1 }}>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
-                      <h4>ประวัติส่วนตัวนักศึกษา</h4>
+                      <h3>ประวัติส่วนตัวนักศึกษา</h3>
                       <hr />
                     </Grid>
                     <Grid item xs={2}>
@@ -445,6 +447,7 @@ function CreateStudent() {
                         name="Student_Address"
                         value={student.Student_Address}
                         onChange={handleInputChange}
+                        multiline
                       />
                     </Grid>
                     <Grid item xs={6}></Grid>
@@ -591,6 +594,7 @@ function CreateStudent() {
               </Box>
             </Paper>
           </Container>
+          </Box>
         </React.Fragment>
       </div>
       </ThemeProvider>
