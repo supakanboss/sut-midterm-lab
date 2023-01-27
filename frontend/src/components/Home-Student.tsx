@@ -35,7 +35,7 @@ function HomeStudent() {
                 <Container>
                   <Box>
                     <h1 style={{ textAlign: "center", color: "#ffffff" }}>
-                      งงมากงับ
+                      Test
                     </h1>
                   </Box>
                 </Container>
