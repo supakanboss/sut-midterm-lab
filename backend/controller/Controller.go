@@ -83,3 +83,31 @@ func ListProvince(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": Province})
 }
+
+///////////////////////////////// login //////////////////////////////////////////////////////////////////////
+
+// GET /student/:id
+func GetStudent(c *gin.Context) {
+	var student entity.STUDENT
+	id := c.Param("id")
+
+	if err := entity.DB().Raw("SELECT * FROM students WHERE id = ?", id).Scan(&student).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": student})
+}
+
+// GET /staff/:id
+func GetAdmin(c *gin.Context) {
+	var admin entity.ADMIN
+	id := c.Param("id")
+
+	if err := entity.DB().Raw("SELECT * FROM admins WHERE id = ?", id).Scan(&admin).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": admin})
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////

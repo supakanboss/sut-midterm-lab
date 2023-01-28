@@ -30,6 +30,13 @@ func main() {
 
 	/////////////////////////////////////////////////////////////
 
+	r.POST("/admin_Login", controller.Admin_Login)
+	r.POST("/Student_Login", controller.Student_Login)
+
+	r.GET("/admin/:id", controller.GetAdmin)
+
+	/////////////////////////////////////////////////////////////
+
 	//combobox Institute
 	r.GET("/institute", controller.ListInstitute)
 	//combobox Branch

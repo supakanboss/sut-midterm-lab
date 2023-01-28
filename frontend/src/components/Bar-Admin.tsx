@@ -26,13 +26,13 @@ export const Adminbar = ({ pageWrapId, outerContainerId }: SidemenuProps) => {
       <a className="menu-item" href="/HomeAdmin">
       บันทึก-ข้อมูลวินัย
       </a>
-      <a className="menu-item logout" href="/">
+      <a className="menu-item logout" href="/HomeAdmin">
       บันทึก-ข้อมูลสาขาวิชา
       </a>
       <a className="menu-item" href="/DataCourse">
       บันทึก-ข้อมูลหลักสูตร
       </a>
-      <a className="menu-item logout" href="/">
+      <a className="menu-item logout" href="/HomeAdmin">
       บันทึก-ข้อมูลแอดมิน
       </a>
       <a className="menu-item logout" href="/">

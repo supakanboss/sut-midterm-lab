@@ -11,6 +11,8 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Link as RouterLink } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { GetAdminByID } from "../../services/HttpClientService";
+import Home from "../Home";
 
 import { Adminbar } from "../Bar-Admin";
 
@@ -18,6 +20,7 @@ import { DegreeInterface } from "../../models/IDegree";
 import { PrefixInterface } from "../../models/IPrefix";
 import { InstituteInterface } from "../../models/IInstitute";
 import { BranchInterface } from "../../models/IBranch";
+import { AdminInterface } from "../../models/IAdmin";
 
 import { CourseInterface } from "../../models/ICourse";
 
@@ -42,6 +45,7 @@ function CreateCourse() {
   const [prefix, setPrefix] = useState<PrefixInterface[]>([]);
   const [institute, setInstitute] = useState<InstituteInterface[]>([]);
   const [branch, setBranch] = useState<BranchInterface[]>([]);
+  const [admin, setAdmin] = useState<AdminInterface>();
 
   const [course, setCourse] = useState<Partial<CourseInterface>>({});
 
@@ -92,6 +96,14 @@ function CreateCourse() {
       });
   };
 
+  const fetchAdminByID = async () => {
+    let res = await GetAdminByID();
+    course.AdminID = res.ID;
+    if (res) {
+      setAdmin(res);
+    }
+  };
+
   /////////////////////////////////////////////////////
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -116,6 +128,7 @@ function CreateCourse() {
     feachPrefix();
     feachInstitute();
     feachBranch();
+    fetchAdminByID();
   }, []);
   console.log(course)
 
@@ -129,9 +142,7 @@ function CreateCourse() {
   //ตัวรับข้อมูลเข้าตาราง
   function submit() {
     let data = {
-      //////////////////////////////
-      //AdminID: course.AdminID,
-      /////////////////////////////
+      AdminID: course.AdminID,
       DegreeID: convertType(course.DegreeID),
       PrefixID: convertType(course.PrefixID),
       InstituteID: convertType(course.InstituteID),
@@ -164,6 +175,20 @@ function CreateCourse() {
       });
   }
 
+  /////////////////////////////////////////////////////
+
+  const [token, setToken] = useState<String>("");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
+  if (!token) {
+    return <Home />;
+  }
+  
   /////////////////////////////////////////////////////
 
   return (

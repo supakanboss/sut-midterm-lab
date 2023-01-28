@@ -15,6 +15,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Home from "../Home";
 
 import { Adminbar } from "../Bar-Admin";
 
@@ -185,7 +186,6 @@ function UpdateStudent() {
   function update() {
     let data = {
       ID: convertType(id),
-      //AdminID: student.AdminID,
       GenderID: convertType(student.GenderID),
       DegreeID: convertType(student.DegreeID),
       PrefixID: convertType(student.PrefixID),
@@ -204,6 +204,7 @@ function UpdateStudent() {
       Student_Address: student.Student_Address,
       Student_Fathers_Name: student.Student_Fathers_Name,
       Student_Mothers_Name: student.Student_Mothers_Name,
+      //AdminID: student.AdminID,
     };
 
     const requestOptions = {
@@ -225,6 +226,20 @@ function UpdateStudent() {
           setError(true);
         }
       });
+  }
+
+  /////////////////////////////////////////////////////
+
+  const [token, setToken] = useState<String>("");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
+  if (!token) {
+    return <Home />;
   }
 
   /////////////////////////////////////////////////////

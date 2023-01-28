@@ -5,6 +5,8 @@ import DataStudent from "./components/Student/DataStudent";
 import CreateStudent from "./components/Student/CreateStudent";
 import UpdateStudent from "./components/Student/UpdateStudent";
 import SearchStudent from "./components/Student/SearchStudent";
+import StudentLogin from "./components/Login-Student";
+import AdminLogin from "./components/Login-Admin";
 
 import DataCourse from "./components/Course/DataCourse";
 import CreateCourse from "./components/Course/CreateCourse";
@@ -17,6 +19,8 @@ function App() {
         <Routes>
           
           <Route path="/" element={<Home />} />
+          <Route path="/StudentLogin" element={<StudentLogin />} />
+          <Route path="/AdminLogin" element={<AdminLogin />} />
           <Route path="/HomeStudent" element={<HomeStudent />} />
           <Route path="/HomeAdmin" element={<HomeAdmin />} />
           <Route path="/DataStudent" element={<DataStudent />} />

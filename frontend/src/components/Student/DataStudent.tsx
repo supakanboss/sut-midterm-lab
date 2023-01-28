@@ -19,6 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { HiHome } from "react-icons/hi";
 import { BiSearchAlt } from "react-icons/bi";
+import Home from "../Home";
 
 import { StudentInterface } from "../../models/IStudent";
 
@@ -102,6 +103,20 @@ function DataStudent() {
     setFilter(NewFilter);
   }, [Studentstable, input]);
 
+  /////////////////////////////////////////////////////
+
+  const [token, setToken] = useState<String>("");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
+  if (!token) {
+    return <Home />;
+  }
+  
   /////////////////////////////////////////////////////
 
   return (

@@ -11,6 +11,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Home from "../Home";
 
 import { Adminbar } from "../Bar-Admin";
 
@@ -130,6 +131,21 @@ function CreateCourse() {
   }, []);
 
   /////////////////////////////////////////////////////
+  
+  const [token, setToken] = useState<String>("");
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+
+  if (!token) {
+    return <Home />;
+  }
+  
+  /////////////////////////////////////////////////////
+  
   return (
     <div className="CreateStudent" id="outer-container">
       <ThemeProvider theme={Theme}>
