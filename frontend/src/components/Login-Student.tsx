@@ -38,7 +38,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function StudentLogin() {
   ///////////////////////////////////////////////////////////////////////////////
 
-  const [studentLogin, setStudentLogin] = useState<Partial<StudentLoginInterface>>({});
+  const [studentLogin, setStudentLogin] = useState<
+    Partial<StudentLoginInterface>
+  >({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 

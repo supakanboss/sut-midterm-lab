@@ -38,12 +38,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function AdminLogin() {
   ///////////////////////////////////////////////////////////////////////////////
 
-  const [adminLogin, setAdminLogin] = useState<Partial<AdminLoginInterface>>({});
+  const [adminLogin, setAdminLogin] = useState<Partial<AdminLoginInterface>>(
+    {}
+  );
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
   ///////////////////////////////////////////////////////////////////////////////
-  
+
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {

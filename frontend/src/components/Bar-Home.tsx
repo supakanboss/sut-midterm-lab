@@ -22,26 +22,21 @@ const Theme = createTheme({
 export const Homebar = ({ pageWrapId, outerContainerId }: SidemenuProps) => {
   return (
     <ThemeProvider theme={Theme}>
-    <Menu>
-      <p className="memu-title">
-      <Button
-            size="large"
-            color="primary"
-            component={RouterLink}
-            to="/"
-          >
-        <a className="menu-head"> Menu </a>
-        </Button>
-      </p>
-      <a className="menu-item" href="/StudentLogin">
-        <BiLogIn size="20" />
-        <a> STUDENT LOG IN</a>
-      </a>
-      <a className="menu-item logout" href="/AdminLogin">
-        <MdOutlineAdminPanelSettings size="20" />
-        <a> ADMIN LOG IN</a>
-      </a>
-    </Menu>
+      <Menu>
+        <p className="memu-title">
+          <Button size="large" color="primary" component={RouterLink} to="/">
+            <a className="menu-head"> Menu </a>
+          </Button>
+        </p>
+        <a className="menu-item" href="/StudentLogin">
+          <BiLogIn size="20" />
+          <a> STUDENT LOG IN</a>
+        </a>
+        <a className="menu-item logout" href="/AdminLogin">
+          <MdOutlineAdminPanelSettings size="20" />
+          <a> ADMIN LOG IN</a>
+        </a>
+      </Menu>
     </ThemeProvider>
   );
 };

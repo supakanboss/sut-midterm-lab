@@ -19,11 +19,15 @@ const Theme = createTheme({
 });
 
 export const Studentbar = ({ pageWrapId, outerContainerId }: SidemenuProps) => {
+  const logout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
   return (
     <ThemeProvider theme={Theme}>
       <Menu>
         <p className="memu-title">
-        <Button
+          <Button
             size="large"
             color="primary"
             component={RouterLink}
@@ -61,7 +65,7 @@ export const Studentbar = ({ pageWrapId, outerContainerId }: SidemenuProps) => {
         <a className="menu-item" href="/HomeStudent">
           เสนอความคิดเห็น
         </a>
-        <a className="menu-item logout" href="/">
+        <a className="menu-item logout" onClick={logout}>
           STUDENT LOG OUT
         </a>
       </Menu>

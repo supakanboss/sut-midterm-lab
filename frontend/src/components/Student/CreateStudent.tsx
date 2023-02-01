@@ -166,7 +166,7 @@ function CreateStudent() {
     setSuccess(false);
     setError(false);
   };
-  
+
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof student;
     setStudent({
@@ -237,9 +237,9 @@ function CreateStudent() {
         if (res.data) {
           setAlertMessage("บันทึกข้อมูลสำเร็จ");
           setSuccess(true);
-          // setTimeout(() => {
-          //   // window.location.href = "/DataStudent";
-          // }, 500);
+          setTimeout(() => {
+            window.location.href = "/DataStudent";
+          }, 500);
         } else {
           setAlertMessage(res.error);
           setError(true);
@@ -393,8 +393,8 @@ function CreateStudent() {
                             <p>วัน/เดือน/ปี เกิด</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                               <DatePicker
-                                renderInput={(params) => (
-                                  <TextField {...params} />
+                                renderInput={(props) => (
+                                  <TextField {...props} />
                                 )}
                                 value={Student_Birthday}
                                 label="วันเกิด"
@@ -614,8 +614,8 @@ function CreateStudent() {
                             <p>ปีที่เข้าศึกษา</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                               <DatePicker
-                                renderInput={(params) => (
-                                  <TextField {...params} />
+                                renderInput={(props) => (
+                                  <TextField {...props} />
                                 )}
                                 value={Student_Year_Of_Entry}
                                 label="ปีที่เข้าศึกษา"

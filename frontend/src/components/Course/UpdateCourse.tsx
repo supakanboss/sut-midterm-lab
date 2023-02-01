@@ -46,6 +46,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function UpdateCourse() {
   /////////////////////////////////////////////////////
   let { id } = useParams();
+  const [message, setAlertMessage] = React.useState("");
 
   const [degree, setDegree] = useState<DegreeInterface[]>([]);
   const [prefix, setPrefix] = useState<PrefixInterface[]>([]);
@@ -157,16 +158,15 @@ function UpdateCourse() {
   function update() {
     let data = {
       ID: convertType(id),
-      DegreeID: convertType(course.DegreeID),
-      PrefixID: convertType(course.PrefixID),
-      InstituteID: convertType(course.InstituteID),
-      BranchID: convertType(course.BranchID),
+      Degree: convertType(course.DegreeID),
+      Prefix: convertType(course.PrefixID),
+      Institute: convertType(course.InstituteID),
+      Branch: convertType(course.BranchID),
       Course_Name: course.Course_Name,
       Course_Teacher: course.Course_Teacher,
       Course_Credit: convertType(course.Course_Credit),
       Course_Detail: course.Course_Detail,
       Course_Year: convertType(course.Course_Year),
-      // AdminID: course.AdminID,
     };
 
     const requestOptions = {
@@ -180,11 +180,13 @@ function UpdateCourse() {
       .then((res) => {
         console.log(res);
         if (res.data) {
+          setAlertMessage("บันทึกข้อมูลสำเร็จ");
           setSuccess(true);
           setTimeout(() => {
             window.location.href = "/DataCourse";
           }, 500);
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -252,7 +254,7 @@ function UpdateCourse() {
                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
                   >
                     <Alert onClose={handleClose} severity="success">
-                      อัปเดตข้อมูลสำเร็จ
+                      {message}
                     </Alert>
                   </Snackbar>
                   <Snackbar
@@ -262,7 +264,7 @@ function UpdateCourse() {
                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
                   >
                     <Alert onClose={handleClose} severity="error">
-                      อัปเดตข้อมูลไม่สำเร็จ
+                      {message}
                     </Alert>
                   </Snackbar>
                 </Box>

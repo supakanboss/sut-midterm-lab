@@ -19,6 +19,10 @@ const Theme = createTheme({
 });
 
 export const Adminbar = ({ pageWrapId, outerContainerId }: SidemenuProps) => {
+  const logout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
   return (
     <ThemeProvider theme={Theme}>
       <Menu>
@@ -57,7 +61,7 @@ export const Adminbar = ({ pageWrapId, outerContainerId }: SidemenuProps) => {
         <a className="menu-item logout" href="/HomeAdmin">
           บันทึก-ข้อมูลแอดมิน
         </a>
-        <a className="menu-item logout" href="/">
+        <a className="menu-item logout" onClick={logout}>
           ADMIN LOG OUT
         </a>
       </Menu>

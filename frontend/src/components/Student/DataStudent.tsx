@@ -116,7 +116,7 @@ function DataStudent() {
   if (!token) {
     return <Home />;
   }
-  
+
   /////////////////////////////////////////////////////
 
   return (
@@ -134,7 +134,7 @@ function DataStudent() {
                 <Paper sx={{ padding: 1 }}>
                   <Box display={"flex"}>
                     <Box sx={{ marginTop: 1.6 }}>
-                      <Typography variant="h4" gutterBottom>                       
+                      <Typography variant="h4" gutterBottom>
                         STUDENT
                       </Typography>
                     </Box>
@@ -155,7 +155,7 @@ function DataStudent() {
                     <Box sx={{ marginTop: 2.3 }}>
                       <BiSearchAlt size="30" />
                     </Box>
-                    <Box sx={{ marginLeft: 45.4, marginTop:0.9 }}>
+                    <Box sx={{ marginLeft: 45.4, marginTop: 0.9 }}>
                       <Button
                         variant="contained"
                         component={RouterLink}

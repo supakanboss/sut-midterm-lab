@@ -43,16 +43,19 @@ const Theme = createTheme({
     },
   },
 });
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
 ) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
+
 function UpdateStudent() {
   /////////////////////////////////////////////////////
 
   let { id } = useParams();
+  const [message, setAlertMessage] = React.useState("");
 
   const [institute, setInstitute] = useState<InstituteInterface[]>([]);
   const [branch, setBranch] = useState<BranchInterface[]>([]);
@@ -202,13 +205,13 @@ function UpdateStudent() {
   function update() {
     let data = {
       ID: convertType(id),
-      GenderID: convertType(student.GenderID),
-      DegreeID: convertType(student.DegreeID),
-      PrefixID: convertType(student.PrefixID),
-      InstituteID: convertType(student.InstituteID),
-      ProvinceID: convertType(student.ProvinceID),
-      BranchID: convertType(student.BranchID),
-      CourseID: convertType(student.CourseID),
+      Gender: convertType(student.GenderID),
+      Degree: convertType(student.DegreeID),
+      Prefix: convertType(student.PrefixID),
+      Institute: convertType(student.InstituteID),
+      Province: convertType(student.ProvinceID),
+      Branch: convertType(student.BranchID),
+      Course: convertType(student.CourseID),
       Student_Year_Of_Entry: Student_Year_Of_Entry,
       Student_Number: student.Student_Number,
       Student_Name: student.Student_Name,
@@ -220,7 +223,6 @@ function UpdateStudent() {
       Student_Address: student.Student_Address,
       Student_Fathers_Name: student.Student_Fathers_Name,
       Student_Mothers_Name: student.Student_Mothers_Name,
-      //AdminID: student.AdminID,
     };
 
     const requestOptions = {
@@ -234,11 +236,13 @@ function UpdateStudent() {
       .then((res) => {
         console.log(res);
         if (res.data) {
+          setAlertMessage("บันทึกข้อมูลสำเร็จ");
           setSuccess(true);
           setTimeout(() => {
             window.location.href = "/DataStudent";
           }, 500);
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -307,7 +311,7 @@ function UpdateStudent() {
                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
                   >
                     <Alert onClose={handleClose} severity="success">
-                      อัปเดตข้อมูลสำเร็จ
+                      {message}
                     </Alert>
                   </Snackbar>
                   <Snackbar
@@ -317,7 +321,7 @@ function UpdateStudent() {
                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
                   >
                     <Alert onClose={handleClose} severity="error">
-                      อัปเดตข้อมูลไม่สำเร็จ
+                      {message}
                     </Alert>
                   </Snackbar>
                 </Box>
@@ -387,8 +391,8 @@ function UpdateStudent() {
                             <p>วัน/เดือน/ปี เกิด</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                               <DatePicker
-                                renderInput={(params) => (
-                                  <TextField {...params} />
+                                renderInput={(props) => (
+                                  <TextField {...props} />
                                 )}
                                 value={Student_Birthday}
                                 onChange={setStudent_Birthday}
@@ -600,8 +604,8 @@ function UpdateStudent() {
                             <p>ปีที่เข้าศึกษา</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                               <DatePicker
-                                renderInput={(params) => (
-                                  <TextField {...params} />
+                                renderInput={(props) => (
+                                  <TextField {...props} />
                                 )}
                                 value={Student_Year_Of_Entry}
                                 onChange={setStudent_Year_Of_Entry}

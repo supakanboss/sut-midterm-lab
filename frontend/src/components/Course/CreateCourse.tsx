@@ -47,6 +47,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 function CreateCourse() {
   /////////////////////////////////////////////////////
+  const [message, setAlertMessage] = React.useState("");
 
   const [degree, setDegree] = useState<DegreeInterface[]>([]);
   const [prefix, setPrefix] = useState<PrefixInterface[]>([]);
@@ -122,6 +123,7 @@ function CreateCourse() {
     setSuccess(false);
     setError(false);
   };
+
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof course;
     setCourse({
@@ -158,11 +160,11 @@ function CreateCourse() {
   //ตัวรับข้อมูลเข้าตาราง
   function submit() {
     let data = {
-      AdminID: course.AdminID,
-      DegreeID: convertType(course.DegreeID),
-      PrefixID: convertType(course.PrefixID),
-      InstituteID: convertType(course.InstituteID),
-      BranchID: convertType(course.BranchID),
+      Admin: course.AdminID,
+      Degree: convertType(course.DegreeID),
+      Prefix: convertType(course.PrefixID),
+      Institute: convertType(course.InstituteID),
+      Branch: convertType(course.BranchID),
       Course_Name: course.Course_Name,
       Course_Teacher: course.Course_Teacher,
       Course_Credit: convertType(course.Course_Credit),
@@ -181,11 +183,13 @@ function CreateCourse() {
       .then((res) => {
         console.log(res);
         if (res.data) {
+          setAlertMessage("บันทึกข้อมูลสำเร็จ");
           setSuccess(true);
           setTimeout(() => {
             window.location.href = "/DataCourse";
           }, 500);
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -253,7 +257,7 @@ function CreateCourse() {
                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
                   >
                     <Alert onClose={handleClose} severity="success">
-                      บันทึกข้อมูลสำเร็จ
+                      {message}
                     </Alert>
                   </Snackbar>
                   <Snackbar
@@ -263,7 +267,7 @@ function CreateCourse() {
                     anchorOrigin={{ vertical: "top", horizontal: "center" }}
                   >
                     <Alert onClose={handleClose} severity="error">
-                      บันทึกข้อมูลไม่สำเร็จ
+                      {message}
                     </Alert>
                   </Snackbar>
                 </Box>
@@ -426,7 +430,6 @@ function CreateCourse() {
                         </Grid>
                         <Grid item xs={6}></Grid>
                         <Grid item xs={3}>
-                          
                           <Button
                             variant="contained"
                             size="large"
