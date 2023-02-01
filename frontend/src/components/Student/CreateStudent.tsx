@@ -17,6 +17,8 @@ import { FiArrowLeft } from "react-icons/fi";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { GetAdminByID } from "../../services/HttpClientService";
 import Home from "../Home";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
 import { Adminbar } from "../Bar-Admin";
 
@@ -43,10 +45,16 @@ const Theme = createTheme({
     },
   },
 });
-
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 function CreateStudent() {
   /////////////////////////////////////////////////////
   const [admin, setAdmin] = useState<AdminInterface>();
+  const [message, setAlertMessage] = React.useState("");
 
   const [institute, setInstitute] = useState<InstituteInterface[]>([]);
   const [branch, setBranch] = useState<BranchInterface[]>([]);
@@ -148,6 +156,17 @@ function CreateStudent() {
 
   /////////////////////////////////////////////////////
 
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+  };
+  
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof student;
     setStudent({
@@ -184,14 +203,14 @@ function CreateStudent() {
   //ตัวรับข้อมูลเข้าตาราง
   function submit() {
     let data = {
-      AdminID: student.AdminID,
-      GenderID: convertType(student.GenderID),
-      DegreeID: convertType(student.DegreeID),
-      PrefixID: convertType(student.PrefixID),
-      InstituteID: convertType(student.InstituteID),
-      ProvinceID: convertType(student.ProvinceID),
-      BranchID: convertType(student.BranchID),
-      CourseID: convertType(student.CourseID),
+      Admin: student.AdminID,
+      Gender: convertType(student.GenderID),
+      Degree: convertType(student.DegreeID),
+      Prefix: convertType(student.PrefixID),
+      Institute: convertType(student.InstituteID),
+      Province: convertType(student.ProvinceID),
+      Branch: convertType(student.BranchID),
+      Course: convertType(student.CourseID),
       Student_Year_Of_Entry: Student_Year_Of_Entry,
       Student_Number: student.Student_Number,
       Student_Name: student.Student_Name,
@@ -204,7 +223,7 @@ function CreateStudent() {
       Student_Fathers_Name: student.Student_Fathers_Name,
       Student_Mothers_Name: student.Student_Mothers_Name,
     };
-    console.log(data)
+    console.log(data);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -216,11 +235,13 @@ function CreateStudent() {
       .then((res) => {
         console.log(res);
         if (res.data) {
+          setAlertMessage("บันทึกข้อมูลสำเร็จ");
           setSuccess(true);
-          setTimeout(() => {
-            window.location.href = "/DataStudent";
-          }, 500);
+          // setTimeout(() => {
+          //   // window.location.href = "/DataStudent";
+          // }, 500);
         } else {
+          setAlertMessage(res.error);
           setError(true);
         }
       });
@@ -239,7 +260,7 @@ function CreateStudent() {
   if (!token) {
     return <Home />;
   }
-  
+
   /////////////////////////////////////////////////////
 
   return (
@@ -256,8 +277,8 @@ function CreateStudent() {
               <Container maxWidth="lg">
                 <Paper sx={{ padding: 1 }}>
                   <Box display={"flex"}>
-                    <Box sx={{ marginTop: 1.6 }}>
-                      <Typography variant="h4" gutterBottom>
+                    <Box>
+                      <a className="menu-head">
                         <Button
                           color="inherit"
                           component={RouterLink}
@@ -266,6 +287,10 @@ function CreateStudent() {
                         >
                           <FiArrowLeft size="30" />
                         </Button>
+                      </a>
+                    </Box>
+                    <Box sx={{ marginTop: 0.4 }}>
+                      <Typography variant="h4" gutterBottom>
                         CREATE STUDENT
                       </Typography>
                     </Box>
@@ -273,6 +298,34 @@ function CreateStudent() {
                 </Paper>
               </Container>
               <Container maxWidth="lg" sx={{ marginTop: 1 }}>
+                <Box
+                  sx={{
+                    mt: 2,
+                  }}
+                >
+                  <Snackbar
+                    id="success"
+                    open={success}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                  >
+                    <Alert onClose={handleClose} severity="success">
+                      {message}
+                    </Alert>
+                  </Snackbar>
+                  <Snackbar
+                    id="error"
+                    open={error}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                  >
+                    <Alert onClose={handleClose} severity="error">
+                      {message}
+                    </Alert>
+                  </Snackbar>
+                </Box>
                 <Paper sx={{ padding: 2 }}>
                   <Box display={"flex"}>
                     <Box sx={{ flexGrow: 1 }}>
@@ -594,7 +647,7 @@ function CreateStudent() {
                             color="primary"
                             onClick={submit}
                           >
-                            submit
+                            <a className="menu-button-submit">submit</a>
                           </Button>
                         </Grid>
                         <Grid item xs={3}>
@@ -606,7 +659,7 @@ function CreateStudent() {
                             component={RouterLink}
                             to="/DataStudent"
                           >
-                            back
+                            <a className="menu-button-back">back</a>
                           </Button>
                         </Grid>
                         <Grid item xs={6}></Grid>

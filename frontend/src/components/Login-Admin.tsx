@@ -11,7 +11,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AdminLoginInterface } from "../models/IAdmin-login";
-import { GrUserAdmin } from "react-icons/gr";
+import { FcAssistant } from "react-icons/fc";
 import { Homebar } from "./Bar-Home";
 
 const Theme = createTheme({
@@ -149,7 +149,7 @@ function AdminLogin() {
                   }}
                 >
                   <Avatar sx={{ width: 80, height: 80 }}>
-                    <GrUserAdmin size={50} />
+                    <FcAssistant size={50} />
                   </Avatar>
                   <Typography component="h1" variant="h5">
                     Login

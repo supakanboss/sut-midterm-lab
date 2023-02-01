@@ -98,7 +98,7 @@ func GetStudent(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": student})
 }
 
-// GET /staff/:id
+// GET /Admin/:id
 func GetAdmin(c *gin.Context) {
 	var admin entity.ADMIN
 	id := c.Param("id")

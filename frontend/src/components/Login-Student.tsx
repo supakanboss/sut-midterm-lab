@@ -11,7 +11,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { StudentLoginInterface } from "../models/IStudent-login";
-import { GrUserAdmin } from "react-icons/gr";
+import { FcReading } from "react-icons/fc";
 import { Homebar } from "./Bar-Home";
 
 const Theme = createTheme({
@@ -147,7 +147,7 @@ function StudentLogin() {
                   }}
                 >
                   <Avatar sx={{ width: 80, height: 80 }}>
-                    <GrUserAdmin size={50} />
+                    <FcReading size={50} />
                   </Avatar>
                   <Typography component="h1" variant="h5">
                     Login

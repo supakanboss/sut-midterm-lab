@@ -76,6 +76,42 @@ Note: Beware of modifying this element as it can break the animations - you shou
   color: #CA3E47;
 }
 
+.menu-head {
+  font-size: 30px;
+  color: #000000;
+  text-align: left;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.menu-head:hover {
+  color: #CA3E47;
+}
+
+.menu-button-back {
+  font-size: 15px;
+  color: #ffffff;
+  text-align: left;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.menu-button-back:hover {
+  color: #eb989e;
+}
+
+.menu-button-submit {
+  font-size: 15px;
+  color: #ffffff;
+  text-align: left;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.menu-button-submit:hover {
+  color: #60c680;
+}
+
 .memu-title {
   color: black;
   font-size: 40px;

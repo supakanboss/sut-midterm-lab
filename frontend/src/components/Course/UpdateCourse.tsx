@@ -12,6 +12,8 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Home from "../Home";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
 
 import { Adminbar } from "../Bar-Admin";
 
@@ -35,7 +37,12 @@ const Theme = createTheme({
     },
   },
 });
-
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 function UpdateCourse() {
   /////////////////////////////////////////////////////
   let { id } = useParams();
@@ -103,6 +110,16 @@ function UpdateCourse() {
   };
 
   /////////////////////////////////////////////////////
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+  };
 
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof course;
@@ -146,9 +163,9 @@ function UpdateCourse() {
       BranchID: convertType(course.BranchID),
       Course_Name: course.Course_Name,
       Course_Teacher: course.Course_Teacher,
-      Course_Credit: convertType (course.Course_Credit),
+      Course_Credit: convertType(course.Course_Credit),
       Course_Detail: course.Course_Detail,
-      Course_Year: convertType (course.Course_Year),
+      Course_Year: convertType(course.Course_Year),
       // AdminID: course.AdminID,
     };
 
@@ -186,7 +203,7 @@ function UpdateCourse() {
   if (!token) {
     return <Home />;
   }
-  
+
   /////////////////////////////////////////////////////
 
   return (
@@ -203,8 +220,8 @@ function UpdateCourse() {
               <Container maxWidth="lg" sx={{ padding: 2 }}>
                 <Paper sx={{ padding: 2 }}>
                   <Box display={"flex"}>
-                    <Box sx={{ flexGrow: 1 }}>
-                      <Typography variant="h4" gutterBottom>
+                    <Box>
+                      <a className="menu-head">
                         <Button
                           color="inherit"
                           component={RouterLink}
@@ -212,6 +229,10 @@ function UpdateCourse() {
                         >
                           <FiArrowLeft size="30" />
                         </Button>
+                      </a>
+                    </Box>
+                    <Box sx={{ marginTop: 0.4 }}>
+                      <Typography variant="h4" gutterBottom>
                         UPDATE COURSE
                       </Typography>
                     </Box>
@@ -219,6 +240,32 @@ function UpdateCourse() {
                 </Paper>
               </Container>
               <Container maxWidth="lg">
+                <Box
+                  sx={{
+                    mt: 2,
+                  }}
+                >
+                  <Snackbar
+                    open={success}
+                    autoHideDuration={3000}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                  >
+                    <Alert onClose={handleClose} severity="success">
+                      อัปเดตข้อมูลสำเร็จ
+                    </Alert>
+                  </Snackbar>
+                  <Snackbar
+                    open={error}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                  >
+                    <Alert onClose={handleClose} severity="error">
+                      อัปเดตข้อมูลไม่สำเร็จ
+                    </Alert>
+                  </Snackbar>
+                </Box>
                 <Paper sx={{ padding: 2 }}>
                   <Box display={"flex"}>
                     <Box sx={{ flexGrow: 1 }}>
@@ -380,7 +427,7 @@ function UpdateCourse() {
                             color="primary"
                             onClick={update}
                           >
-                            submit
+                            <a className="menu-button-submit">submit</a>
                           </Button>
                         </Grid>
                         <Grid item xs={3}>
@@ -392,7 +439,7 @@ function UpdateCourse() {
                             component={RouterLink}
                             to="/DataCourse"
                           >
-                            back
+                            <a className="menu-button-back">back</a>
                           </Button>
                         </Grid>
                         <Grid item xs={6}></Grid>
