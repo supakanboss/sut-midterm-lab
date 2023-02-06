@@ -64,11 +64,8 @@ function CreateStudent() {
   const [gender, setGender] = useState<GenderInterface[]>([]);
   const [province, setProvince] = useState<ProvinceInterface[]>([]);
 
-  const [Student_Birthday, setStudent_Birthday] = useState<Date | null>(
-    new Date()
-  );
-  const [Student_Year_Of_Entry, setStudent_Year_Of_Entry] =
-    useState<Date | null>(new Date());
+  const [Student_Birthday, setStudent_Birthday] = useState<Date | null>(new Date());
+  const [Student_Year_Of_Entry, setStudent_Year_Of_Entry] = useState<Date | null>(new Date());
 
   const [student, setStudent] = useState<Partial<StudentInterface>>({});
 
@@ -146,7 +143,7 @@ function CreateStudent() {
       });
   };
 
-  const fetchAdminByID = async () => {
+  const feachAdminByID = async () => {
     let res = await GetAdminByID();
     student.AdminID = res.ID;
     if (res) {
@@ -192,7 +189,7 @@ function CreateStudent() {
     feachPrefix();
     feachGender();
     feachProvince();
-    fetchAdminByID();
+    feachAdminByID();
   }, []);
   console.log(student);
   /////////////////////////////////////////////////////

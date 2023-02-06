@@ -55,11 +55,8 @@ function SearchStudent() {
   const [gender, setGender] = useState<GenderInterface[]>([]);
   const [province, setProvince] = useState<ProvinceInterface[]>([]);
 
-  const [Student_Birthday, setStudent_Birthday] = useState<Date | null>(
-    new Date()
-  );
-  const [Student_Year_Of_Entry, setStudent_Year_Of_Entry] =
-    useState<Date | null>(new Date());
+  const [Student_Birthday, setStudent_Birthday] = useState<Date | null>(new Date());
+  const [Student_Year_Of_Entry, setStudent_Year_Of_Entry] = useState<Date | null>(new Date());
 
   const [student, setStudent] = useState<Partial<StudentInterface>>({});
 
@@ -293,16 +290,16 @@ function SearchStudent() {
                         <Grid item xs={4}>
                           <FormControl fullWidth variant="outlined">
                             <p>วัน/เดือน/ปี เกิด</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                              <DatePicker
-                                renderInput={(params) => (
-                                  <TextField {...params} />
-                                )}
-                                value={Student_Birthday}
-                                onChange={setStudent_Birthday}
-                                disabled
-                              />
-                            </LocalizationProvider>
+                            <TextField
+                            fullWidth
+                            id="Student_Birthday"
+                            type="string"
+                            variant="outlined"
+                            name="Student_Birthday"
+                            disabled
+                            value={student.Student_Birthday}
+                            onChange={handleInputChange}
+                          />
                           </FormControl>
                         </Grid>
                         <Grid item xs={6}></Grid>
@@ -519,16 +516,16 @@ function SearchStudent() {
                         <Grid item xs={6}>
                           <FormControl fullWidth variant="outlined">
                             <p>ปีที่เข้าศึกษา</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                              <DatePicker
-                                disabled
-                                renderInput={(params) => (
-                                  <TextField {...params} />
-                                )}
-                                value={Student_Year_Of_Entry}
-                                onChange={setStudent_Year_Of_Entry}
-                              />
-                            </LocalizationProvider>
+                            <TextField
+                            fullWidth
+                            id="Student_Year_Of_Entry"
+                            type="string"
+                            variant="outlined"
+                            name="Student_Year_Of_Entry"
+                            disabled
+                            value={student.Student_Year_Of_Entry}
+                            onChange={handleInputChange}
+                          />
                           </FormControl>
                         </Grid>
                         <Grid item xs={6}></Grid>

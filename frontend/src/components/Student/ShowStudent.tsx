@@ -16,8 +16,7 @@ import { Link as RouterLink, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Home from "../Home";
-import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import { GetStudentByID } from "../../services/HttpClientService";
 
 import { Adminbar } from "../Bar-Admin";
 
@@ -44,18 +43,8 @@ const Theme = createTheme({
   },
 });
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-function UpdateStudent() {
+function ShowStudent() {
   /////////////////////////////////////////////////////
-
-  let { id } = useParams();
-  const [message, setAlertMessage] = React.useState("");
 
   const [institute, setInstitute] = useState<InstituteInterface[]>([]);
   const [branch, setBranch] = useState<BranchInterface[]>([]);
@@ -82,11 +71,11 @@ function UpdateStudent() {
   /////////////////// combobox /////////////////////////
 
   const feachStudentByID = async () => {
-    fetch(`${apiUrl}/student/${id}`, requestOptionsGet)
-      .then((response) => response.json())
-      .then((result) => {
-        result.data && setStudent(result.data);
-      });
+    let res = await GetStudentByID();
+    student.AdminID = res.ID;
+    if (res) {
+        setStudent(res);
+    }
   };
 
   const feachInstitute = async () => {
@@ -153,16 +142,7 @@ function UpdateStudent() {
   };
 
   /////////////////////////////////////////////////////
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSuccess(false);
-    setError(false);
-  };
+
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof student;
     setStudent({
@@ -193,60 +173,6 @@ function UpdateStudent() {
 
   /////////////////////////////////////////////////////
 
-  const convertType = (data: string | number | undefined) => {
-    let val = typeof data === "string" ? parseInt(data) : data;
-    return val;
-  };
-
-  //ตัวรับข้อมูลเข้าตาราง
-  function update() {
-    let data = {
-      ID: convertType(id),
-      Gender: convertType(student.GenderID),
-      Degree: convertType(student.DegreeID),
-      Prefix: convertType(student.PrefixID),
-      Institute: convertType(student.InstituteID),
-      Province: convertType(student.ProvinceID),
-      Branch: convertType(student.BranchID),
-      Course: convertType(student.CourseID),
-      Student_Year_Of_Entry: Student_Year_Of_Entry,
-      Student_Number: student.Student_Number,
-      Student_Name: student.Student_Name,
-      Student_Birthday: Student_Birthday,
-      Student_Tel: student.Student_Tel,
-      Student_Identity_Card: student.Student_Identity_Card,
-      Student_Nationality: student.Student_Nationality,
-      Student_Religion: student.Student_Religion,
-      Student_Address: student.Student_Address,
-      Student_Fathers_Name: student.Student_Fathers_Name,
-      Student_Mothers_Name: student.Student_Mothers_Name,
-    };
-
-    const requestOptions = {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    };
-
-    fetch(`${apiUrl}/update_student`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          setAlertMessage("บันทึกข้อมูลสำเร็จ");
-          setSuccess(true);
-          setTimeout(() => {
-            window.location.href = "/DataStudent";
-          }, 500);
-        } else {
-          setAlertMessage(res.error);
-          setError(true);
-        }
-      });
-  }
-
-  /////////////////////////////////////////////////////
-
   const [token, setToken] = useState<String>("");
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -262,13 +188,13 @@ function UpdateStudent() {
   /////////////////////////////////////////////////////
 
   return (
-    <div className="UpdateStudent" id="outer-container">
+    <div className="SearchStudent" id="outer-container">
       <ThemeProvider theme={Theme}>
         <Adminbar
-          pageWrapId={"page-UpdateStudent"}
+          pageWrapId={"page-SearchStudent"}
           outerContainerId={"outer-container"}
         />
-        <div id="page-UpdateStudent">
+        <div id="page-SearchStudent">
           <React.Fragment>
             <Box sx={{ backgroundColor: "#313131", height: "260vh" }}>
               <CssBaseline />
@@ -280,7 +206,7 @@ function UpdateStudent() {
                         <Button
                           color="inherit"
                           component={RouterLink}
-                          to="/DataStudent"
+                          to="/HomeStudent"
                           sx={{ marginBottom: 0.5 }}
                         >
                           <FiArrowLeft size="30" />
@@ -289,39 +215,13 @@ function UpdateStudent() {
                     </Box>
                     <Box sx={{ marginTop: 0.4 }}>
                       <Typography variant="h4" gutterBottom>
-                        UPDATE STUDENT
+                        STUDENT
                       </Typography>
                     </Box>
                   </Box>
                 </Paper>
               </Container>
               <Container maxWidth="lg" sx={{ marginTop: 1 }}>
-                <Box
-                  sx={{
-                    mt: 2,
-                  }}
-                >
-                  <Snackbar
-                    open={success}
-                    autoHideDuration={3000}
-                    onClose={handleClose}
-                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                  >
-                    <Alert onClose={handleClose} severity="success">
-                      {message}
-                    </Alert>
-                  </Snackbar>
-                  <Snackbar
-                    open={error}
-                    autoHideDuration={6000}
-                    onClose={handleClose}
-                    anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                  >
-                    <Alert onClose={handleClose} severity="error">
-                      {message}
-                    </Alert>
-                  </Snackbar>
-                </Box>
                 <Paper sx={{ padding: 2 }}>
                   <Box display={"flex"}>
                     <Box sx={{ flexGrow: 1 }}>
@@ -333,6 +233,7 @@ function UpdateStudent() {
                         <Grid item xs={2}>
                           <p>คำนำหน้า </p>
                           <Select
+                            disabled
                             fullWidth
                             id="Prefix"
                             onChange={handleChange}
@@ -354,6 +255,7 @@ function UpdateStudent() {
                           <p>ชื่อ-สกุล</p>
                           <TextField
                             fullWidth
+                            disabled
                             id="Student_Name"
                             type="string"
                             variant="outlined"
@@ -367,6 +269,7 @@ function UpdateStudent() {
                           <p>เพศ </p>
                           <Select
                             fullWidth
+                            disabled
                             id="Gender"
                             onChange={handleChange}
                             native
@@ -386,15 +289,16 @@ function UpdateStudent() {
                         <Grid item xs={4}>
                           <FormControl fullWidth variant="outlined">
                             <p>วัน/เดือน/ปี เกิด</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                              <DatePicker
-                                renderInput={(props) => (
-                                  <TextField {...props} />
-                                )}
-                                value={Student_Birthday}
-                                onChange={setStudent_Birthday}
-                              />
-                            </LocalizationProvider>
+                            <TextField
+                            fullWidth
+                            id="Student_Birthday"
+                            type="string"
+                            variant="outlined"
+                            name="Student_Birthday"
+                            disabled
+                            value={student.Student_Birthday}
+                            onChange={handleInputChange}
+                          />
                           </FormControl>
                         </Grid>
                         <Grid item xs={6}></Grid>
@@ -406,6 +310,7 @@ function UpdateStudent() {
                             type="string"
                             variant="outlined"
                             name="Student_Tel"
+                            disabled
                             value={student.Student_Tel}
                             onChange={handleInputChange}
                           />
@@ -419,6 +324,7 @@ function UpdateStudent() {
                             type="string"
                             variant="outlined"
                             name="Student_Identity_Card"
+                            disabled
                             value={student.Student_Identity_Card}
                             onChange={handleInputChange}
                           />
@@ -432,6 +338,7 @@ function UpdateStudent() {
                             type="string"
                             variant="outlined"
                             name="Student_Fathers_Name"
+                            disabled
                             value={student.Student_Fathers_Name}
                             onChange={handleInputChange}
                           />
@@ -445,6 +352,7 @@ function UpdateStudent() {
                             type="string"
                             variant="outlined"
                             name="Student_Mothers_Name"
+                            disabled
                             value={student.Student_Mothers_Name}
                             onChange={handleInputChange}
                           />
@@ -458,6 +366,7 @@ function UpdateStudent() {
                             type="string"
                             variant="outlined"
                             name="Student_Nationality"
+                            disabled
                             value={student.Student_Nationality}
                             onChange={handleInputChange}
                           />
@@ -470,6 +379,7 @@ function UpdateStudent() {
                             type="string"
                             variant="outlined"
                             name="Student_Religion"
+                            disabled
                             value={student.Student_Religion}
                             onChange={handleInputChange}
                           />
@@ -482,6 +392,7 @@ function UpdateStudent() {
                             id="Province"
                             onChange={handleChange}
                             native
+                            disabled
                             value={student.ProvinceID + ""}
                             inputProps={{ name: "ProvinceID" }}
                           >
@@ -504,6 +415,7 @@ function UpdateStudent() {
                             type="string"
                             variant="outlined"
                             name="Student_Address"
+                            disabled
                             value={student.Student_Address}
                             onChange={handleInputChange}
                             multiline
@@ -521,6 +433,7 @@ function UpdateStudent() {
                             id="Institute"
                             onChange={handleChange}
                             native
+                            disabled
                             value={student.InstituteID + ""}
                             inputProps={{ name: "InstituteID" }}
                           >
@@ -541,6 +454,7 @@ function UpdateStudent() {
                             id="Branch"
                             onChange={handleChange}
                             native
+                            disabled
                             value={student.BranchID + ""}
                             inputProps={{ name: "BranchID" }}
                           >
@@ -562,6 +476,7 @@ function UpdateStudent() {
                             id="Course"
                             onChange={handleChange}
                             native
+                            disabled
                             value={student.CourseID + ""}
                             inputProps={{ name: "CourseID" }}
                           >
@@ -582,6 +497,7 @@ function UpdateStudent() {
                             id="Degree"
                             onChange={handleChange}
                             native
+                            disabled
                             value={student.DegreeID + ""}
                             inputProps={{ name: "DegreeID" }}
                           >
@@ -599,15 +515,16 @@ function UpdateStudent() {
                         <Grid item xs={6}>
                           <FormControl fullWidth variant="outlined">
                             <p>ปีที่เข้าศึกษา</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                              <DatePicker
-                                renderInput={(props) => (
-                                  <TextField {...props} />
-                                )}
-                                value={Student_Year_Of_Entry}
-                                onChange={setStudent_Year_Of_Entry}
-                              />
-                            </LocalizationProvider>
+                            <TextField
+                            fullWidth
+                            id="Student_Year_Of_Entry"
+                            type="string"
+                            variant="outlined"
+                            name="Student_Year_Of_Entry"
+                            disabled
+                            value={student.Student_Year_Of_Entry}
+                            onChange={handleInputChange}
+                          />
                           </FormControl>
                         </Grid>
                         <Grid item xs={6}></Grid>
@@ -619,30 +536,20 @@ function UpdateStudent() {
                             type="string"
                             variant="outlined"
                             name="Student_Number"
+                            disabled
                             value={student.Student_Number}
                             onChange={handleInputChange}
                           />
                         </Grid>
                         <Grid item xs={6}></Grid>
-                        <Grid item xs={3}>
-                          <Button
-                            variant="contained"
-                            size="large"
-                            fullWidth
-                            color="primary"
-                            onClick={update}
-                          >
-                            <a className="menu-button-submit">update</a>
-                          </Button>
-                        </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={6}>
                           <Button
                             variant="contained"
                             size="large"
                             fullWidth
                             color="secondary"
                             component={RouterLink}
-                            to="/DataStudent"
+                            to="/HomeStudent"
                           >
                             <a className="menu-button-back">back</a>
                           </Button>
@@ -660,4 +567,4 @@ function UpdateStudent() {
     </div>
   );
 }
-export default UpdateStudent;
+export default ShowStudent;
