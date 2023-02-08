@@ -86,9 +86,9 @@ type COURSE struct {
 	gorm.Model
 	Course_Name    string
 	Course_Teacher string
-	Course_Credit  uint
-	Course_Detail  string
-	Course_Year    uint
+	Course_Credit  uint `valid:"range(120|200)"`
+	Course_Detail  string `valid:"minstringlength(10)"`
+	Course_Year    uint `valid:"range(2560|9999)"`
 
 	DegreeID    *uint
 	PrefixID    *uint
@@ -107,14 +107,14 @@ type COURSE struct {
 type STUDENT struct {
 	gorm.Model
 	Student_Year_Of_Entry time.Time
-	Student_Number        string `gorm:"uniqueIndex"`
+	Student_Number        string `gorm:"uniqueIndex" valid:"required ,matches(^[BMD]\\d{7}$)"`
 	Student_Name          string
 	Student_Birthday      time.Time
 	Student_Tel           string
-	Student_Identity_Card string `gorm:"uniqueIndex"`
+	Student_Identity_Card string `gorm:"uniqueIndex" valid:"required ,matches(^\\d{13}$)"`
 	Student_Nationality   string
 	Student_Religion      string
-	Student_Address       string
+	Student_Address       string `valid:"minstringlength(10)"`
 	Student_Fathers_Name  string
 	Student_Mothers_Name  string
 
